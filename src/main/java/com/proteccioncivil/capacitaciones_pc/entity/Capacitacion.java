@@ -15,6 +15,10 @@ public class Capacitacion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private String pc;
+
+    private String op;
+
     @Column(length = 100)
     private String nombreSolicitante;
 
@@ -33,10 +37,10 @@ public class Capacitacion {
     @Column(length = 40)
     private String telefono;
 
+    @Column(nullable = false, updatable = false)
     private LocalDateTime fechaRegistro;
 
     @PrePersist
-    @Column(nullable = false, updatable = false)
     public void prePersist() {
         fechaRegistro = LocalDateTime.now();
     }

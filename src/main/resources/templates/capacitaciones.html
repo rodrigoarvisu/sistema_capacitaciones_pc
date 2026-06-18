@@ -1,28 +1,343 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
-
-    <title>Capacitaciones</title>
-
-    <link rel="stylesheet" href="/css/styles.css">
-
+    <meta charset="UTF-8">
+    <title>Nueva Capacitación</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/capacitaciones.css}">
+    
 </head>
-
 <body>
 
-<div class="container">
-
+<div class="layout">
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
 
-    <main class="contenido">
+    <main class="main-content">
+        <button id="btnSidebar" class="btn-sidebar" type="button">☰</button>
 
-        <h1 th:text="${titulo}"></h1>
+        <!-- Breadcrumb -->
+        <nav class="fc-breadcrumb">
+            <a th:href="@{/capacitaciones}">Capacitaciones</a>
+            <i class="ti ti-chevron-right"></i>
+            <span>Nueva capacitación</span>
+        </nav>
 
+        <!-- Page header -->
+        <div class="fc-page-header">
+            <div class="fc-page-header-left">
+                <div class="fc-page-header-icon">
+                    <i class="ti ti-clipboard-list"></i>
+                </div>
+                <div>
+                    <h1>Nueva capacitación</h1>
+                    <p>Registrar, editar y administrar las capacitaciones</p>
+                </div>
+            </div>
+            <a th:href="@{/capacitaciones}" class="btn-secondary-pc fc-btn-back">
+                <i class="ti ti-arrow-left"></i> Volver al calendario
+            </a>
+        </div>
+
+        <!-- Layout: formulario + sidebar -->
+        <div class="fc-layout">
+
+            <!-- Columna izquierda: formulario -->
+            <div class="fc-form-col">
+                <form th:action="@{/capacitaciones/guardar}"
+                      th:object="${capacitacion}"
+                      method="post"
+                      class="fc-form">
+
+                    <!-- Sección: Datos administrativos -->
+                    <div class="fc-section">
+                        <div class="fc-section-head">
+                            <i class="ti ti-file-description" aria-hidden="true"></i>
+                            <div>
+                                <h2>Datos administrativos</h2>
+                                <span>Identificadores de la solicitud</span>
+                            </div>
+                        </div>
+                        <div class="fc-grid">
+                            <div class="fc-field">
+                                <label for="pc">PC <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-id-badge" aria-hidden="true"></i>
+                                    <input type="text"
+                                           id="pc"
+                                           th:field="*{pc}"
+                                           placeholder="Ingresa el PC"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="fc-field">
+                                <label for="op">OP <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-building" aria-hidden="true"></i>
+                                    <input type="text"
+                                           id="op"
+                                           th:field="*{op}"
+                                           placeholder="Ingresa el OP"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección: Solicitante -->
+                    <div class="fc-section">
+                        <div class="fc-section-head">
+                            <i class="ti ti-user" aria-hidden="true"></i>
+                            <div>
+                                <h2>Solicitante</h2>
+                                <span>Información del solicitante y tipo de inmueble</span>
+                            </div>
+                        </div>
+                        <div class="fc-grid">
+                            <div class="fc-field">
+                                <label for="nombreSolicitante">Nombre del solicitante <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-building-skyscraper" aria-hidden="true"></i>
+                                    <input type="text"
+                                           id="nombreSolicitante"
+                                           th:field="*{nombreSolicitante}"
+                                           placeholder="Dependencia, escuela, empresa o solicitante"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="fc-field">
+                                <label for="tipoInmueble">Tipo de inmueble <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-home" aria-hidden="true"></i>
+                                    <select id="tipoInmueble" th:field="*{tipoInmueble}" required>
+                                        <option value="">Selecciona una opción</option>
+                                        <option th:each="tipo : ${tiposInmueble}"
+                                                th:value="${tipo.id}"
+                                                th:text="${tipo.nombre}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección: Información de la capacitación -->
+                    <div class="fc-section">
+                        <div class="fc-section-head">
+                            <i class="ti ti-certificate" aria-hidden="true"></i>
+                            <div>
+                                <h2>Información de la capacitación</h2>
+                                <span>Tipo, fecha y horario programado</span>
+                            </div>
+                        </div>
+                        <div class="fc-grid">
+                            <div class="fc-field">
+                                <label for="tipoCapacitacion">Tipo de capacitación <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-book" aria-hidden="true"></i>
+                                    <select id="tipoCapacitacion" th:field="*{tipoCapacitacion}" required>
+                                        <option value="">Selecciona una opción</option>
+                                        <option th:each="tipo : ${tiposCapacitacion}"
+                                                th:value="${tipo.id}"
+                                                th:text="${tipo.nombre}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="fc-field">
+                                <label for="fecha">Fecha <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-calendar" aria-hidden="true"></i>
+                                    <input type="date"
+                                           id="fecha"
+                                           th:field="*{fecha}"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="fc-field">
+                                <label for="horaInicio">Hora inicio <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-clock" aria-hidden="true"></i>
+                                    <input type="time"
+                                           id="horaInicio"
+                                           th:field="*{horaInicio}"
+                                           required>
+                                </div>
+                            </div>
+                            <div class="fc-field">
+                                <label for="horaFin">Hora fin <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-clock-off" aria-hidden="true"></i>
+                                    <input type="time"
+                                           id="horaFin"
+                                           th:field="*{horaFin}"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección: Ubicación -->
+                    <div class="fc-section">
+                        <div class="fc-section-head">
+                            <i class="ti ti-map-pin" aria-hidden="true"></i>
+                            <div>
+                                <h2>Ubicación</h2>
+                                <span>Dirección y referencias del lugar</span>
+                            </div>
+                        </div>
+                        <div class="fc-grid">
+                            <div class="fc-field fc-field-full">
+                                <label for="direccion">Dirección <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-map-pin" aria-hidden="true"></i>
+                                    <input type="text"
+                                           id="direccion"
+                                           th:field="*{direccion}"
+                                           placeholder="Calle, número, colonia, municipio"
+                                           required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección: Contacto -->
+                    <div class="fc-section">
+                        <div class="fc-section-head">
+                            <i class="ti ti-phone" aria-hidden="true"></i>
+                            <div>
+                                <h2>Contacto</h2>
+                                <span>Persona responsable para seguimiento</span>
+                            </div>
+                        </div>
+                        <div class="fc-grid">
+                            <div class="fc-field">
+                                <label for="contacto">Nombre del contacto</label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-user-circle" aria-hidden="true"></i>
+                                    <input type="text"
+                                           id="contacto"
+                                           th:field="*{contacto}"
+                                           placeholder="Nombre completo">
+                                </div>
+                            </div>
+                            <div class="fc-field">
+                                <label for="telefono">Teléfono</label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-phone" aria-hidden="true"></i>
+                                    <input type="tel"
+                                           id="telefono"
+                                           th:field="*{telefono}"
+                                           placeholder="Ej. 55 1234 5678">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sección: Estatus -->
+                    <div class="fc-section">
+                        <div class="fc-section-head">
+                            <i class="ti ti-flag" aria-hidden="true"></i>
+                            <div>
+                                <h2>Estatus</h2>
+                                <span>Estado actual de la capacitación</span>
+                            </div>
+                        </div>
+                        <div class="fc-grid">
+                            <div class="fc-field">
+                                <label for="estatus">Estatus <span class="fc-req">*</span></label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-flag" aria-hidden="true"></i>
+                                    <select id="estatus" th:field="*{estatus}" required>
+                                        <option value="">Selecciona una opción</option>
+                                        <option th:each="item : ${estatusLista}"
+                                                th:value="${item.id}"
+                                                th:text="${item.nombre}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Footer del formulario -->
+                    <div class="fc-form-footer">
+                        <a th:href="@{/dashboard}" class="btn-secondary-pc fc-btn-cancel">
+                            <i class="ti ti-x"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn-primary-pc fc-btn-submit">
+                            <i class="ti ti-device-floppy"></i> Guardar capacitación
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <!-- Columna derecha: panel de resumen -->
+            <aside class="fc-aside">
+                <div class="fc-aside-card">
+                    <div class="fc-aside-head">
+                        <i class="ti ti-list-details" aria-hidden="true"></i>
+                        <span>Resumen</span>
+                    </div>
+                    <div class="fc-aside-body">
+                        <div class="fc-summary-row">
+                            <i class="ti ti-building-skyscraper" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Solicitante</span>
+                                <span class="fc-summary-val" id="resumen-solicitante">—</span>
+                            </div>
+                        </div>
+                        <div class="fc-summary-row">
+                            <i class="ti ti-home" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Tipo de inmueble</span>
+                                <span class="fc-summary-val" id="resumen-inmueble">—</span>
+                            </div>
+                        </div>
+                        <div class="fc-summary-row">
+                            <i class="ti ti-certificate" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Tipo de capacitación</span>
+                                <span class="fc-summary-val" id="resumen-tipo">—</span>
+                            </div>
+                        </div>
+                        <div class="fc-summary-row">
+                            <i class="ti ti-calendar" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Fecha</span>
+                                <span class="fc-summary-val" id="resumen-fecha">—</span>
+                            </div>
+                        </div>
+                        <div class="fc-summary-row">
+                            <i class="ti ti-clock" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Horario</span>
+                                <span class="fc-summary-val" id="resumen-horario">—</span>
+                            </div>
+                        </div>
+                        <div class="fc-summary-row">
+                            <i class="ti ti-flag" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Estatus</span>
+                                <span class="fc-summary-val" id="resumen-estatus">—</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fc-info-box">
+                    <i class="ti ti-info-circle" aria-hidden="true"></i>
+                    <p>Los campos marcados con <span class="fc-req">*</span> son obligatorios. Verifica la información antes de guardar.</p>
+                </div>
+            </aside>
+
+        </div><!-- /fc-layout -->
     </main>
-
 </div>
 
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/form-capacitacion.js}"></script>
 </body>
-
 </html>

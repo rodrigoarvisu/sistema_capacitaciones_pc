@@ -1,3 +1,21 @@
+:root {
+    --pc-rojo: #8d0000e1;
+    --pc-rojo-oscuro: #020000;
+    --pc-dorado: #D4A017;
+    --pc-dorado-oscuro: #c7b274f2;
+    --pc-dorado-suave: #a99a6c;
+    --pc-fondo: #F4F6F8;
+    --pc-panel: #FFFFFF;
+    --pc-texto: #1F2933;
+    --pc-texto-suave: #6B7280;
+    --pc-borde: #E5E7EB;
+
+    --pc-escuela: #FACC15;
+    --pc-gobierno: #2563EB;
+    --pc-empresa: #16A34A;
+    --pc-unidad: #9333EA;
+}
+
 *{
     margin:0;
     padding:0;
@@ -15,7 +33,7 @@ body{
 
 .sidebar{
     width:250px;
-    background:#8B0000;
+    background: linear-gradient(180deg, var(--pc-rojo), var(--pc-rojo-oscuro));
     color:white;
     padding:20px;
 }
@@ -81,3 +99,43 @@ body{
     object-fit:contain;
     flex-shrink:0;
 }
+
+.layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    transition: transform 0.3s ease, width 0.3s ease;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+}
+
+.btn-sidebar {
+    border: none;
+    background: var(--pc-dorado-oscuro);
+    color: white;
+    font-size: 24px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.btn-sidebar:hover{
+    background: var(--pc-dorado-suave);
+}
+
+body.sidebar-hidden .sidebar {
+    width: 0;
+    overflow: hidden;
+}
+
+ 
+
