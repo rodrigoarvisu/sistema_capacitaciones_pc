@@ -6,12 +6,14 @@
 
     <nav>
 
-        <a href="/" class="menu-item">
+        <a href="/" class="menu-item"
+           th:classappend="${paginaActiva == 'dashboard'} ? ' active'">
             <img src="/img/icono-dashboard.png" class="iconos">
              Dashboard
         </a>
 
-        <a href="/capacitaciones" class="menu-item">
+        <a href="/capacitaciones" class="menu-item"
+           th:classappend="${paginaActiva == 'capacitaciones'} ? ' active'">
             <img src="/img/icono-capacitaciones.png" class="iconos">
              Capacitaciones
         </a>
@@ -34,4 +36,3 @@
     </nav>
 
 </aside>
-

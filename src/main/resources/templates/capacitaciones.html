@@ -263,9 +263,11 @@
 
                     <!-- Footer del formulario -->
                     <div class="fc-form-footer">
-                        <a th:href="@{/dashboard}" class="btn-secondary-pc fc-btn-cancel">
-                            <i class="ti ti-x"></i> Cancelar
-                        </a>
+                        <button type="button" id="btn-limpiar" class="btn-primary-pc fc-btn-cancel">
+                            <i class="ti ti-trash"></i> Limpiar
+                        </button>
+
+
                         <button type="submit" class="btn-primary-pc fc-btn-submit">
                             <i class="ti ti-device-floppy"></i> Guardar capacitación
                         </button>
@@ -338,6 +340,6 @@
 </div>
 
 <script th:src="@{/js/sidebar.js}"></script>
-<script th:src="@{/js/form-capacitacion.js}"></script>
+<script th:src="@{/js/capacitaciones.js}"></script>
 </body>
 </html>
