@@ -45,6 +45,6 @@ public class CapacitacionController {
     public String guardarCapacitaciones(
             @ModelAttribute Capacitacion capacitacion) {
         capacitacionService.guardar(capacitacion);
-        return "redirect:/capacitaciones";
+        return "redirect:/capacitaciones?guardado=true";
     }
 }

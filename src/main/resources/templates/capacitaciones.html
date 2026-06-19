@@ -128,7 +128,7 @@
                             <i class="ti ti-certificate" aria-hidden="true"></i>
                             <div>
                                 <h2>Información de la capacitación</h2>
-                                <span>Tipo, fecha y horario programado</span>
+                                <span>Tipo, fecha, instructores y horario programado</span>
                             </div>
                         </div>
                         <div class="fc-grid">
@@ -173,6 +173,15 @@
                                            id="horaFin"
                                            th:field="*{horaFin}"
                                            required>
+                                </div>
+                            </div>
+                            <div class="fc-field">
+                                <label for="instructor">Instructores</label>
+                                <div class="fc-input-wrap">
+                                 <i class="ti ti-user-star" aria-hidden="true"></i>
+                                <select id="instructor" name="instructor">
+                                    <option value="">Selecciona un instructor</option>
+                                </select>
                                 </div>
                             </div>
                         </div>
@@ -319,6 +328,13 @@
                                 <span class="fc-summary-val" id="resumen-horario">—</span>
                             </div>
                         </div>
+                         <div class="fc-summary-row">
+                            <i class="ti ti-user-star" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Instructores asignados</span>
+                                <span class="fc-summary-val" id="resumen-instructores">—</span>
+                            </div>
+                        </div>
                         <div class="fc-summary-row">
                             <i class="ti ti-flag" aria-hidden="true"></i>
                             <div>
@@ -338,6 +354,10 @@
         </div><!-- /fc-layout -->
     </main>
 </div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 
 <script th:src="@{/js/sidebar.js}"></script>
 <script th:src="@{/js/capacitaciones.js}"></script>
