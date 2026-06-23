@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Instructores</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/instructores.css}">
+</head>
+<body>
+
+<div class="layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="main-content">
+        <button id="btnSidebar" class="btn-sidebar" type="button">☰</button>
+
+        <!-- Page header -->
+        <div class="ins-page-header">
+            <div class="ins-page-header-left">
+                <div class="ins-page-header-icon">
+                    <i class="ti ti-users"></i>
+                </div>
+                <div>
+                    <h1>Instructores</h1>
+                    <p>Administra la información y consulta la agenda de los instructores.</p>
+                </div>
+            </div>
+            <button type="button" id="btn-nuevo-instructor" class="ins-btn-primary">
+                <i class="ti ti-plus"></i> Nuevo instructor
+            </button>
+        </div>
+
+        <div class="ins-layout">
+
+            <!-- ============ COLUMNA IZQUIERDA: Catálogo ============ -->
+            <aside class="ins-catalogo">
+                <div class="ins-card">
+                    <div class="ins-card-head">
+                        <h2>Catálogo de instructores</h2>
+                    </div>
+                    <div class="ins-card-body ins-catalogo-body">
+
+                        <div class="ins-search-row">
+                            <div class="ins-search-wrap">
+                                <i class="ti ti-search"></i>
+                                <input type="text" id="buscarInstructor" placeholder="Buscar instructor...">
+                            </div>
+                            <select id="filtroEstatus" class="ins-filtro">
+                                <option value="todos">Todos</option>
+                                <option value="activo">Activos</option>
+                                <option value="inactivo">Inactivos</option>
+                            </select>
+                        </div>
+
+                
+                        
+                        <div class="ins-lista" id="listaInstructores">
+                           <div class="ins-item"
+                            th:each="i : ${instructores}"
+                            th:data-id="${i.id}"
+                            th:data-nombre="${i.nombre}"
+                            th:data-telefono="${i.telefono}"
+                            th:data-activo="${i.activo}"
+                            th:classappend="${i.activo} ? ' activo' : ' inactivo'">
+                                 <div class="ins-item-avatar"><i class="ti ti-user"></i></div>
+                                 <div class="ins-item-info">
+                                     <span class="ins-item-name" th:text="${i.nombre}">Nombre</span>
+                                     <span class="ins-item-phone" th:text="${i.telefono}">Tel</span>
+                                 </div>
+                                 <span class="ins-badge" th:classappend="${i.activo} ? 'ins-badge-activo' : 'ins-badge-inactivo'"
+                                       th:text="${i.activo} ? 'Activo' : 'Inactivo'">Activo</span>
+                             </div>
+                        </div>
+
+                        <div class="ins-paginacion">
+                            <button type="button" class="ins-page-btn" id="pagPrev"><i class="ti ti-chevron-left"></i></button>
+                            <span class="ins-page-info">1 de 2</span>
+                            <button type="button" class="ins-page-btn" id="pagNext"><i class="ti ti-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ============ COLUMNA DERECHA: Detalle ============ -->
+            <section class="ins-detalle">
+
+                <!-- Encabezado del instructor seleccionado -->
+                <div class="ins-card ins-perfil-card">
+                    <div class="ins-perfil-top">
+                        <div class="ins-perfil-avatar"><i class="ti ti-user"></i></div>
+                        <div class="ins-perfil-info">
+                            <div class="ins-perfil-nombre-row">
+                                <h2 id="detalleNombre">Fernando de Alva</h2>
+                                <span class="ins-badge ins-badge-activo" id="detalleEstatus">Activo</span>
+                            </div>
+                            <span class="ins-perfil-tel"><i class="ti ti-phone"></i> <span id="detalleTelefono">55 12 34 56 78</span></span>
+                        </div>
+                        <div class="ins-perfil-acciones">
+                            <button type="button" class="ins-btn-outline" id="btn-editar-instructor">
+                                <i class="ti ti-edit"></i> Editar
+                            </button>
+                            <form id="formInactivar" method="post" th:action="@{/instructores/inactivar/0}">
+                                <button type="submit" class="ins-btn-danger-outline" id="btn-inactivar-instructor">
+                                   <i class="ti ti-ban"></i> <span id="btnInactivarLabel">Inactivar</span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- KPIs -->
+                <div class="ins-kpis">
+                    <div class="ins-kpi">
+                        <div class="ins-kpi-icon ins-kpi-azul"><i class="ti ti-calendar-event"></i></div>
+                        <div>
+                            <span class="ins-kpi-label">Próximas capacitaciones</span>
+                            <span id="kpiProximas" class="ins-kpi-valor">0</span>
+                        </div>
+                    </div>
+                    <div class="ins-kpi">
+                        <div class="ins-kpi-icon ins-kpi-verde"><i class="ti ti-calendar-check"></i></div>
+                        <div>
+                            <span class="ins-kpi-label">Realizadas (este mes)</span>
+                            <span id="kpiRealizadasMes" class="ins-kpi-valor">0</span>
+                        </div>
+                    </div>
+                    <div class="ins-kpi">
+                        <div class="ins-kpi-icon ins-kpi-morado"><i class="ti ti-chart-bar"></i></div>
+                        <div>
+                            <span class="ins-kpi-label">Totales</span>
+                            <span id="kpiTotales" class="ins-kpi-valor">0</span>
+                        </div>
+                    </div>
+                    <div class="ins-kpi">
+                        <div class="ins-kpi-icon ins-kpi-dorado"><i class="ti ti-clock"></i></div>
+                        <div>
+                            <span class="ins-kpi-label">Próxima capacitación</span>
+                            <span id="kpiProximaCapacitacion" class="ins-kpi-valor-sm">Sin programación</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Próximas capacitaciones asignadas (placeholder, requiere relación) -->
+                <div class="ins-card">
+                    <div class="ins-card-head ins-card-head-row">
+                        <h2>Próximas capacitaciones asignadas</h2>
+                        <a href="#" class="ins-link">Ver calendario</a>
+                    </div>
+                    <div class="ins-card-body ins-table-wrap">
+                        <table class="ins-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Solicitante / Inmueble</th>
+                                    <th>Tipo de capacitación</th>
+                                    <th>Tipo de inmueble</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaProximas">
+                                <tr>
+                                    <td>21/05/2024</td>
+                                    <td>10:30 - 12:30</td>
+                                    <td>Escuela Primaria No. 6<br><span class="ins-table-sub">Col. San Miguel Chalma</span></td>
+                                    <td>Primeros Auxilios</td>
+                                    <td><span class="ins-pill ins-pill-escuela">Escuela</span></td>
+                                </tr>
+                                <tr>
+                                    <td>22/05/2024</td>
+                                    <td>11:00 - 13:00</td>
+                                    <td>DIF Municipal Tlalnepantla<br><span class="ins-table-sub">Av. Convento de Santa Mónica</span></td>
+                                    <td>Evacuación</td>
+                                    <td><span class="ins-pill ins-pill-gobierno">Dependencia</span></td>
+                                </tr>
+                                <tr>
+                                    <td>24/05/2024</td>
+                                    <td>09:30 - 11:30</td>
+                                    <td>Empresa MOES<br><span class="ins-table-sub">Parque Industrial Toluca</span></td>
+                                    <td>Prevención de Incendios</td>
+                                    <td><span class="ins-pill ins-pill-empresa">Empresa</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="#" class="ins-link ins-link-block">Ver todas las próximas capacitaciones →</a>
+                    </div>
+                </div>
+
+                <!-- Historial (placeholder, requiere relación) -->
+                <div class="ins-card">
+                    <div class="ins-card-head">
+                        <h2>Historial de capacitaciones realizadas</h2>
+                    </div>
+                    <div class="ins-card-body ins-table-wrap">
+                        <table class="ins-table">
+                            <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Solicitante / Inmueble</th>
+                                    <th>Tipo de capacitación</th>
+                                    <th>Horas</th>
+                                    <th>Resultado</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tablaHistorial">
+                                <tr>
+                                    <td>14/05/2024</td>
+                                    <td>Escuela Secundaria No. 12<br><span class="ins-table-sub">Col. Tequexquináhuac</span></td>
+                                    <td>Primeros Auxilios</td>
+                                    <td>2:00</td>
+                                    <td><span class="ins-pill ins-pill-realizada">Realizada</span></td>
+                                </tr>
+                                <tr>
+                                    <td>10/05/2024</td>
+                                    <td>Gobierno del Estado de México<br><span class="ins-table-sub">Palacio de Gobierno</span></td>
+                                    <td>Evacuación</td>
+                                    <td>2:00</td>
+                                    <td><span class="ins-pill ins-pill-realizada">Realizada</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <a href="#" class="ins-link ins-link-block">Ver historial completo →</a>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+</div>
+
+<!-- ============ MODAL: Nuevo / Editar instructor ============ -->
+<div class="ins-modal-overlay" id="modalInstructor">
+    <div class="ins-modal">
+        <div class="ins-modal-head">
+            <h2 id="modalTitulo">Nuevo instructor</h2>
+            <button type="button" class="ins-modal-close" id="btnCerrarModal">
+                <i class="ti ti-x"></i>
+            </button>
+            
+        </div>
+
+        <form th:action="@{/instructores/guardar}"
+              th:object="${instructor}"
+              method="post"
+              id="formInstructor"
+              class="ins-modal-body">
+
+            <input type="hidden" th:field="*{id}">
+
+            <div class="ins-field">
+                <label for="nombre">Nombre completo <span class="ins-req">*</span></label>
+                <div class="ins-input-wrap">
+                    <i class="ti ti-user"></i>
+                    <input type="text"
+                           id="nombre"
+                           th:field="*{nombre}"
+                           placeholder="Nombre y apellidos"
+                           required>
+                </div>
+            </div>
+
+            <div class="ins-field">
+                <label for="telefono">Teléfono <span class="ins-req">*</span></label>
+                <div class="ins-input-wrap">
+                    <i class="ti ti-phone"></i>
+                    <input type="tel"
+                           id="telefono"
+                           th:field="*{telefono}"
+                           placeholder="Ej. 55 1234 5678"
+                           required>
+                </div>
+            </div>
+
+            <div class="ins-field">
+                <label class="ins-switch-label">Estatus</label>
+                <label class="ins-switch">
+                    <input type="checkbox" id="activo" th:field="*{activo}" checked>
+                    <span class="ins-switch-slider"></span>
+                    <span class="ins-switch-text" id="estatusTexto">Activo</span>
+                </label>
+            </div>
+
+            <div class="ins-modal-footer">
+                <button type="button" class="ins-btn-outline" id="btnCancelarModal">Cancelar</button>
+                <button type="submit" class="ins-btn-primary">
+                    <i class="ti ti-device-floppy"></i> Guardar instructor
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/instructores.js}"></script>
+</body>
+</html>

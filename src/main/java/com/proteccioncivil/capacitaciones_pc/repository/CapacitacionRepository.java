@@ -20,6 +20,12 @@ public interface CapacitacionRepository
             LocalDate fecha
     );
 
+    List<Capacitacion>
+    findByInstructorIdAndFechaLessThanOrderByFechaDesc(
+            Long instructorId,
+            LocalDate fecha
+    );
+
     long countByInstructorIdAndFechaBetween(
             Long instructorId,
             LocalDate inicio,
@@ -34,5 +40,6 @@ public interface CapacitacionRepository
             Long instructorId,
             LocalDate fecha
     );
+
 
 }

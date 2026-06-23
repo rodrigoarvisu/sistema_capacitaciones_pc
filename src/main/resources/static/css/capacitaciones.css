@@ -1,0 +1,343 @@
+/* ============================================================
+   form-capacitacion.css
+   Estilos del formulario "Nueva capacitación"
+   Depende de styles.css (variables --pc-* ya definidas)
+   ============================================================ */
+
+/* Breadcrumb */
+.fc-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--pc-texto-suave);
+    margin-bottom: 14px;
+}
+.fc-breadcrumb a {
+    color: #185FA5;
+    text-decoration: none;
+    font-size: 12px;
+}
+.fc-breadcrumb a:hover { text-decoration: underline; }
+.fc-breadcrumb i { font-size: 12px; }
+
+/* Page header */
+.fc-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+.fc-page-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+.fc-page-header-icon {
+    width: 46px;
+    height: 46px;
+    background: #EBF5FB;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+.fc-page-header-icon i { font-size: 22px; color: #185FA5; }
+.fc-page-header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--pc-texto);
+    margin: 0;
+}
+.fc-page-header p {
+    font-size: 13px;
+    color: var(--pc-texto-suave);
+    margin: 2px 0 0;
+}
+.fc-btn-back {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+}
+.fc-btn-back i { font-size: 15px; }
+
+/* Layout principal: formulario + aside */
+.fc-layout {
+    display: grid;
+    grid-template-columns: 1fr 270px;
+    gap: 20px;
+    align-items: start;
+}
+
+/* Columna del formulario */
+.fc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* Sección */
+.fc-section {
+    background: var(--pc-panel);
+    border: 1px solid var(--pc-dorado-oscuro);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.fc-section-head {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--pc-dorado-oscuro);
+    background: #FAFAFA;
+}
+.fc-section-head > i {
+    font-size: 18px;
+    color: var(--pc-rojo);
+    flex-shrink: 0;
+}
+.fc-section-head h2 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--pc-texto);
+    margin: 0 0 1px;
+}
+.fc-section-head span {
+    font-size: 12px;
+    color: var(--pc-texto-suave);
+}
+
+/* Grid de campos */
+.fc-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    padding: 18px;
+}
+.fc-field {
+    display: flex;
+    flex-direction: column;
+}
+.fc-field-full {
+    grid-column: span 2;
+}
+
+/* Labels */
+.fc-field label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--pc-texto);
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 6px;
+}
+.fc-req { color: var(--pc-rojo); }
+
+/* Input con ícono */
+.fc-input-wrap {
+    position: relative;
+}
+.fc-input-wrap > i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: var(--pc-texto-suave);
+    pointer-events: none;
+    z-index: 1;
+}
+.fc-input-wrap input,
+.fc-input-wrap select {
+    padding-left: 40px !important;
+}
+
+/* Inputs y selects globales dentro del formulario */
+.fc-form input,
+.fc-form select,
+.fc-form textarea {
+    width: 100%;
+    border: 1px solid var(--pc-borde);
+    border-radius: 6px;
+    padding: 9px 12px;
+    font-size: 13px;
+    color: var(--pc-texto);
+    background: var(--pc-input);
+    transition: border-color 0.15s, box-shadow 0.15s;
+    font-family: inherit;
+}
+.fc-form input:focus,
+.fc-form select:focus,
+.fc-form textarea:focus {
+    outline: none;
+    border-color: var(--pc-rojo);
+    box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.10);
+}
+.fc-form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    padding-right: 30px;
+    cursor: pointer;
+}
+.fc-form textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+/* Footer del formulario */
+.fc-form-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 0 20px;
+}
+.fc-btn-cancel {
+   display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    background: var(--pc-dorado-oscuro);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+.fc-btn-submit {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 13px;
+    font-weight: 700;
+    background: var(--pc-rojo);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 9px 20px;
+    cursor: pointer;
+    transition: all .25s ease;
+}
+.fc-btn-submit:hover { transform: translateY(-3px);}
+.fc-btn-cancel:hover { transform: translateY(-3px);}
+.fc-btn-submit i,
+.fc-btn-cancel i { font-size: 15px; }
+
+/* ---- Aside (panel lateral) ---- */
+.fc-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    position: sticky;
+    top: 20px;
+}
+.fc-aside-card {
+    background: var(--pc-panel);
+    border: 1px solid var(--pc-dorado-oscuro);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.fc-aside-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--pc-dorado-suave);
+    background: #FAFAFA;
+}
+.fc-aside-head i { font-size: 16px; color: var(--pc-rojo); }
+.fc-aside-head span {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--pc-texto);
+}
+.fc-aside-body { padding: 8px 16px; }
+
+/* Filas del resumen */
+.fc-summary-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--pc-dorado-oscuro);
+}
+.fc-summary-row:last-child { border-bottom: none; }
+.fc-summary-row > i {
+    font-size: 15px;
+    color: var(--pc-texto-suave);
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+.fc-summary-row > div {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+.fc-summary-key {
+    font-size: 11px;
+    color: var(--pc-texto-suave);
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    font-weight: 600;
+}
+.fc-summary-val {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pc-texto);
+}
+
+/* Caja informativa */
+.fc-info-box {
+    display: flex;
+    gap: 10px;
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 8px;
+    padding: 12px 14px;
+}
+.fc-info-box i {
+    font-size: 17px;
+    color: #2563EB;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+.fc-info-box p {
+    font-size: 12px;
+    color: #1D4ED8;
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 960px) {
+    .fc-layout {
+        grid-template-columns: 1fr;
+    }
+    .fc-aside {
+        position: static;
+    }
+    .fc-grid {
+        grid-template-columns: 1fr;
+    }
+    .fc-field-full {
+        grid-column: span 1;
+    }
+    .fc-form-footer {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+    .fc-btn-submit,
+    .fc-btn-cancel {
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+    }
+}

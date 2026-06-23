@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -93,6 +94,19 @@ public class InstructorController {
                                 LocalDate.now()
                         );
 
+        List<Capacitacion> proximasCapacitaciones =
+                capacitacionRepository
+                        .findByInstructorIdAndFechaGreaterThanEqualOrderByFechaAsc(
+                                id,
+                                LocalDate.now()
+                        );
+        List<Capacitacion> historial =
+                capacitacionRepository
+                        .findByInstructorIdAndFechaLessThanOrderByFechaDesc(
+                                id,
+                                LocalDate.now()
+                        );
+
         datos.put("proximas", proximas);
         datos.put("totales", totales);
         datos.put("realizadasMes", realizadasMes);
@@ -111,6 +125,9 @@ public class InstructorController {
                             + proximaCap.getHoraInicio().format(horaFormatter)
             );
         }
+
+        datos.put("proximasCapacitaciones", proximasCapacitaciones);
+        datos.put("historial", historial);
         return datos;
     }
 }
