@@ -56,4 +56,8 @@ public class Capacitacion {
     @ManyToOne
     @JoinColumn(name = "estatus_id")
     private Estatus estatus;
+
+    @ManyToOne
+    @JoinColumn(name = "instructor_id")
+    private Instructor instructor;
 }

@@ -4,9 +4,11 @@ import com.proteccioncivil.capacitaciones_pc.entity.Capacitacion;
 import com.proteccioncivil.capacitaciones_pc.entity.Instructor;
 import com.proteccioncivil.capacitaciones_pc.repository.CapacitacionRepository;
 import com.proteccioncivil.capacitaciones_pc.repository.InstructorRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class InstructorService {
     private final InstructorRepository instructorRepository;
 
@@ -14,11 +16,13 @@ public class InstructorService {
         this.instructorRepository = instructorRepository;
     }
 
-    public List<Instructor> obtenerTodas() {
+    public List<Instructor> obtenerTodos() {
         return instructorRepository.findAll();
     }
 
     public Instructor guardar(Instructor instructor) {
         return instructorRepository.save(instructor);
     }
+
+    public Instructor obtenerPorId(Long id) { return instructorRepository.findById(id).orElse(null); }
 }

@@ -8,7 +8,7 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
     <link rel="stylesheet" th:href="@{/css/capacitaciones.css}">
     
-</head>
+</head>     
 <body>
 
 <div class="layout">
@@ -32,7 +32,7 @@
                 </div>
                 <div>
                     <h1>Nueva capacitación</h1>
-                    <p>Registrar, editar y administrar las capacitaciones</p>
+                    <p>Registrar, editar y administrar las capacitaciones.</p>
                 </div>
             </div>
             <a th:href="@{/capacitaciones}" class="btn-secondary-pc fc-btn-back">
@@ -179,8 +179,12 @@
                                 <label for="instructor">Instructores</label>
                                 <div class="fc-input-wrap">
                                  <i class="ti ti-user-star" aria-hidden="true"></i>
-                                <select id="instructor" name="instructor">
+                                <select id="instructor" name="instructor" th:field="*{instructor}">
                                     <option value="">Selecciona un instructor</option>
+                                    <option th:each="i : ${instructor}"
+                                            th:value="${i.id}"
+                                            th:text="${i.nombre}">
+                                    </option>
                                 </select>
                                 </div>
                             </div>

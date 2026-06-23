@@ -2,6 +2,7 @@ package com.proteccioncivil.capacitaciones_pc.controller;
 
 import com.proteccioncivil.capacitaciones_pc.entity.Capacitacion;
 import com.proteccioncivil.capacitaciones_pc.repository.EstatusRepository;
+import com.proteccioncivil.capacitaciones_pc.repository.InstructorRepository;
 import com.proteccioncivil.capacitaciones_pc.repository.TipoCapacitacionRepository;
 import com.proteccioncivil.capacitaciones_pc.repository.TipoInmuebleRepository;
 import com.proteccioncivil.capacitaciones_pc.service.CapacitacionService;
@@ -17,15 +18,18 @@ public class CapacitacionController {
     private final TipoCapacitacionRepository tipoCapacitacionRepository;
     private final EstatusRepository estatusRepository;
     private final CapacitacionService capacitacionService;
+    private final InstructorRepository instructorRepository;
 
     public CapacitacionController(TipoInmuebleRepository tipoInmuebleRepository,
                                   TipoCapacitacionRepository tipoCapacitacionRepository,
                                   EstatusRepository estatusRepository,
-                                  CapacitacionService capacitacionService) {
+                                  CapacitacionService capacitacionService,
+                                  InstructorRepository instructorRepository) {
         this.tipoInmuebleRepository = tipoInmuebleRepository;
         this.tipoCapacitacionRepository = tipoCapacitacionRepository;
         this.estatusRepository = estatusRepository;
         this.capacitacionService = capacitacionService;
+        this.instructorRepository = instructorRepository;
     }
 
     @GetMapping
@@ -37,6 +41,7 @@ public class CapacitacionController {
         model.addAttribute("tiposCapacitacion", tipoCapacitacionRepository.findAll());
         model.addAttribute("estatusLista", estatusRepository.findAll());
         model.addAttribute("paginaActiva", "capacitaciones");
+        model.addAttribute("instructor", instructorRepository.findAll());
 
         return "capacitaciones";
     }
