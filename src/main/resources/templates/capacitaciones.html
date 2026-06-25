@@ -35,9 +35,10 @@
                     <p>Registrar, editar y administrar las capacitaciones.</p>
                 </div>
             </div>
-            <a th:href="@{/capacitaciones}" class="btn-secondary-pc fc-btn-back">
-                <i class="ti ti-arrow-left"></i> Volver al calendario
-            </a>
+           <button type="button" class="btn-primary-pc fc-btn-submit"
+             th:onclick="|window.location.href='@{/calendario}'|">
+                <i class="ti ti-arrow-back-up"></i> Volver al calendario
+            </button>
         </div>
 
         <!-- Layout: formulario + sidebar -->
@@ -50,6 +51,7 @@
                       method="post"
                       class="fc-form">
 
+                      <input type="hidden" th:field="*{id}">
                     <!-- Sección: Datos administrativos -->
                     <div class="fc-section">
                         <div class="fc-section-head">
@@ -145,14 +147,15 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="fc-field">
+                            <div class="fc-field">  
                                 <label for="fecha">Fecha <span class="fc-req">*</span></label>
                                 <div class="fc-input-wrap">
                                     <i class="ti ti-calendar" aria-hidden="true"></i>
                                     <input type="date"
-                                           id="fecha"
-                                           th:field="*{fecha}"
-                                           required>
+                                       id="fecha"
+                                       name="fecha"
+                                       th:value="${capacitacion.fecha != null ? #temporals.format(capacitacion.fecha, 'yyyy-MM-dd') : ''}"
+                                       required>
                                 </div>
                             </div>
                             <div class="fc-field">

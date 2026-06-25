@@ -6,6 +6,7 @@ import com.proteccioncivil.capacitaciones_pc.repository.InstructorRepository;
 import com.proteccioncivil.capacitaciones_pc.repository.TipoCapacitacionRepository;
 import com.proteccioncivil.capacitaciones_pc.repository.TipoInmuebleRepository;
 import com.proteccioncivil.capacitaciones_pc.service.CapacitacionService;
+import com.proteccioncivil.capacitaciones_pc.service.InstructorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -51,5 +52,21 @@ public class CapacitacionController {
             @ModelAttribute Capacitacion capacitacion) {
         capacitacionService.guardar(capacitacion);
         return "redirect:/capacitaciones?guardado=true";
+    }
+
+    @GetMapping("/editar/{id}")
+    public String editarCapacitacion(@PathVariable Long id, Model model) {
+
+        Capacitacion capacitacion = capacitacionService.obtenerPorId(id);
+
+        model.addAttribute("titulo", "Editar capacitación");
+        model.addAttribute("capacitacion", capacitacion);
+        model.addAttribute("tiposInmueble", tipoInmuebleRepository.findAll());
+        model.addAttribute("tiposCapacitacion", tipoCapacitacionRepository.findAll());
+        model.addAttribute("estatusLista", estatusRepository.findAll());
+        model.addAttribute("instructor", instructorRepository.findAll());
+        model.addAttribute("paginaActiva", "capacitaciones");
+
+        return "capacitaciones";
     }
 }

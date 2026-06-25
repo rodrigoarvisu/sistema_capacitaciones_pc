@@ -21,4 +21,8 @@ public class CapacitacionService {
     public Capacitacion guardar(Capacitacion capacitacion) {
         return capacitacionRepository.save(capacitacion);
     }
+
+    public Capacitacion obtenerPorId(Long id) {
+        return capacitacionRepository.findById(id).orElseThrow();
+    }
 }

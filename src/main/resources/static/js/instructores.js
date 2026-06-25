@@ -244,3 +244,43 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 });
+
+const personasPorPagina = 3;
+let paginaActual = 1;
+
+const personas = document.querySelectorAll(".ins-item");
+const btnPrev = document.getElementById("pagPrev");
+const btnNext = document.getElementById("pagNext");
+const pagInfo = document.getElementById("pagInfo");
+
+const totalPaginas = Math.ceil(personas.length / personasPorPagina);
+
+function mostrarPagina(pagina) {
+    const inicio = (pagina - 1) * personasPorPagina;
+    const fin = inicio + personasPorPagina;
+
+    personas.forEach((persona, index) => {
+        persona.style.display = index >= inicio && index < fin ? "" : "none";
+    });
+
+    pagInfo.textContent = `${paginaActual} / ${totalPaginas}`;
+
+    btnPrev.disabled = paginaActual === 1;
+    btnNext.disabled = paginaActual === totalPaginas;
+}
+
+btnPrev.addEventListener("click", () => {
+    if (paginaActual > 1) {
+        paginaActual--;
+        mostrarPagina(paginaActual);
+    }
+});
+
+btnNext.addEventListener("click", () => {
+    if (paginaActual < totalPaginas) {
+        paginaActual++;
+        mostrarPagina(paginaActual);
+    }
+});
+
+mostrarPagina(paginaActual);

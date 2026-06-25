@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Calendario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/calendario.css}">
+</head>
+<body>
+
+<div class="layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+
+    <main class="main-content">
+        <button id="btnSidebar" class="btn-sidebar" type="button">☰</button>
+
+        <!-- Page header -->
+        <div class="cal-page-header">
+            <div class="cal-page-header-left">
+                <div class="cal-page-header-icon">
+                    <i class="ti ti-calendar"></i>
+                </div>
+                <div>
+                    <h1>Calendario de Capacitaciones</h1>
+                    <p>Visualiza y gestiona las capacitaciones programadas.</p>
+                </div>
+            </div>
+            <button type="button" class="cal-btn-primary"
+             th:onclick="|window.location.href='@{/capacitaciones}'|">
+                <i class="ti ti-plus"></i> Nueva capacitación
+            </button>
+        </div>
+
+        <div class="cal-layout">
+
+            <!-- ============ COLUMNA PRINCIPAL: Calendario ============ -->
+            <div class="cal-main">
+
+                <!-- Toolbar del calendario -->
+                <div class="cal-toolbar">
+                    <div class="cal-toolbar-left">
+                        <button type="button" class="cal-nav-btn" id="btnAnterior">
+                            <i class="ti ti-chevron-left"></i>
+                        </button>
+                        <button type="button" class="cal-nav-btn" id="btnSiguiente">
+                            <i class="ti ti-chevron-right"></i>
+                        </button>
+                        <button type="button" class="cal-hoy-btn" id="btnHoy">Hoy</button>
+                        <h2 class="cal-titulo-periodo" id="tituloPeriodo">—</h2>
+                    </div>
+                    <div class="cal-toolbar-right">
+                        <div class="cal-vista-toggle">
+                            <button type="button" class="cal-vista-btn active" id="btnVistaSemana" data-vista="semana">
+                                Semana
+                            </button>
+                            <button type="button" class="cal-vista-btn" id="btnVistaMes" data-vista="mes">
+                                Mes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Vista semanal -->
+                <div id="vistaSemana" class="cal-card">
+                    <div class="cal-semana-grid" id="semanaGrid">
+                        <!-- Generado por JS -->
+                    </div>
+                </div>
+
+                <!-- Vista mensual -->
+                <div id="vistaMes" class="cal-card" style="display:none">
+                    <div class="cal-mes-header" id="mesHeader">
+                        <!-- Generado por JS -->
+                    </div>
+                    <div class="cal-mes-grid" id="mesGrid">
+                        <!-- Generado por JS -->
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ============ COLUMNA LATERAL ============ -->
+            <aside class="cal-sidebar">
+
+                <!-- Mini calendario de navegación -->
+                <div class="cal-card cal-mini-card">
+                    <div class="cal-mini-header">
+                        <button type="button" class="cal-mini-nav" id="miniAnterior"><i class="ti ti-chevron-left"></i></button>
+                        <span id="miniTitulo">—</span>
+                        <button type="button" class="cal-mini-nav" id="miniSiguiente"><i class="ti ti-chevron-right"></i></button>
+                    </div>
+                    <div class="cal-mini-dias-header">
+                        <span>Lu</span><span>Ma</span><span>Mi</span>
+                        <span>Ju</span><span>Vi</span><span>Sá</span><span>Do</span>
+                    </div>
+                    <div class="cal-mini-grid" id="miniGrid">
+                        <!-- Generado por JS -->
+                    </div>
+                </div>
+
+                <!-- Leyenda tipos de inmueble -->
+                <div class="cal-card cal-leyenda-card">
+                    <div class="cal-card-head">
+                        <h3>Tipos de inmueble</h3>
+                    </div>
+                    <div class="cal-card-body">
+                        <div class="cal-leyenda-item">
+                            <span class="cal-dot cal-dot-escuela"></span> Escuela
+                        </div>
+                        <div class="cal-leyenda-item">
+                            <span class="cal-dot cal-dot-gobierno"></span> Dependencia de Gobierno
+                        </div>
+                        <div class="cal-leyenda-item">
+                            <span class="cal-dot cal-dot-empresa"></span> Empresa
+                        </div>
+                        <div class="cal-leyenda-item">
+                            <span class="cal-dot cal-dot-unidad"></span> Unidad Habitacional
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Próximas capacitaciones -->
+                <div class="cal-card">
+                    <div class="cal-card-head">
+                        <h3>Próximas capacitaciones</h3>
+                    </div>
+                    <div class="cal-card-body cal-proximas-body" id="listaProximas">
+                        
+                    </div>
+                </div>
+
+                <!-- KPIs del mes -->
+                <div class="cal-card">
+                    <div class="cal-card-head">
+                        <h3>Resumen del mes</h3>
+                    </div>
+                    <div class="cal-card-body">
+                        <div class="cal-kpi-row">
+                            <div class="cal-kpi-mini">
+                                <i class="ti ti-calendar-event"></i>
+                                <div>
+                                    <span class="cal-kpi-num" id="kpiTotal">0</span>
+                                    <span class="cal-kpi-lbl">Este mes</span>
+                                </div>
+                            </div>
+                            <div class="cal-kpi-mini">
+                                <i class="ti ti-building" style="color:var(--pc-empresa)"></i>
+                                <div>
+                                    <span class="cal-kpi-num cal-kpi-empresa" id="kpiEmpresas">0</span>
+                                    <span class="cal-kpi-lbl">Empresas</span>
+                                </div>
+                            </div>
+                            <div class="cal-kpi-mini">
+                                <i class="ti ti-school" style="color:var(--pc-escuela)"></i>
+                                <div>
+                                    <span class="cal-kpi-num cal-kpi-escuela" id="kpiEscuelas">0</span>
+                                    <span class="cal-kpi-lbl">Escuelas</span>
+                                </div>
+                            </div>
+                            <div class="cal-kpi-mini">
+                                <i class="ti ti-building-bank" style="color:var(--pc-gobierno)"></i>
+                                <div>
+                                    <span class="cal-kpi-num cal-kpi-gobierno" id="kpiGobierno">0</span>
+                                    <span class="cal-kpi-lbl">Dependencias</span>
+                                </div>
+                            </div>
+                            <div class="cal-kpi-mini">
+                                <i class="ti ti-building-skyscraper" style="color:var(--pc-unidad)"></i>
+                                <div>
+                                    <span class="cal-kpi-num cal-kpi-habitacional" id="kpiHabitacional">0</span>
+                                    <span class="cal-kpi-lbl">U.H.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+        </div>
+    </main>
+</div>
+
+<!-- ============ MODAL: Detalle de capacitación ============ -->
+<div class="cal-modal-overlay" id="modalDetalle">
+    <div class="cal-modal">
+        <div class="cal-modal-head">
+            <div class="cal-modal-head-left">
+                <span class="cal-modal-dot" id="modalDot"></span>
+                <h2 id="modalTitulo">—</h2>
+            </div>
+            <button type="button" class="cal-modal-close" id="btnCerrarModal">
+                <i class="ti ti-x"></i>
+            </button>
+        </div>
+        <div class="cal-modal-body">
+            <div class="cal-modal-row">
+                <i class="ti ti-calendar"></i>
+                <div>
+                    <span class="cal-modal-lbl">Fecha</span>
+                    <span class="cal-modal-val" id="modalFecha">—</span>
+                </div>
+            </div>
+            <div class="cal-modal-row">
+                <i class="ti ti-clock"></i>
+                <div>
+                    <span class="cal-modal-lbl">Horario</span>
+                    <span class="cal-modal-val" id="modalHorario">—</span>
+                </div>
+            </div>
+            <div class="cal-modal-row">
+                <i class="ti ti-building-skyscraper"></i>
+                <div>
+                    <span class="cal-modal-lbl">Solicitante</span>
+                    <span class="cal-modal-val" id="modalSolicitante">—</span>
+                </div>
+            </div>
+            <div class="cal-modal-row">
+                <i class="ti ti-map-pin"></i>
+                <div>
+                    <span class="cal-modal-lbl">Dirección</span>
+                    <span class="cal-modal-val" id="modalDireccion">—</span>
+                </div>
+            </div>
+            <div class="cal-modal-row">
+                <i class="ti ti-certificate"></i>
+                <div>
+                    <span class="cal-modal-lbl">Tipo de capacitación</span>
+                    <span class="cal-modal-val" id="modalTipoCapacitacion">—</span>
+                </div>
+            </div>
+            <div class="cal-modal-row">
+                <i class="ti ti-home"></i>
+                <div>
+                    <span class="cal-modal-lbl">Tipo de inmueble</span>
+                    <span class="cal-modal-val" id  ="modalTipoInmueble">—</span>
+                </div>
+            </div>
+            <div class="cal-modal-row">
+                <i class="ti ti-user"></i>
+                <div>
+                    <span class="cal-modal-lbl">Instructor</span>
+                    <span class="cal-modal-val" id="modalInstructor">—</span>
+                </div>
+            </div>
+            <div class="cal-modal-row">
+                <i class="ti ti-flag"></i>
+                <div>
+                    <span class="cal-modal-lbl">Estatus</span>
+                    <span class="cal-modal-val" id="modalEstatus">—</span>
+                </div>
+            </div>
+        </div>
+        <div class="cal-modal-footer">
+            <button type="button" class="cal-btn-outline" id="btnCerrarModal2">Cerrar</button>
+            <button type="button" class="cal-btn-primary" id="modalLinkEditar">
+                <i class="ti ti-edit"></i>Editar capacitación
+            </button>
+        </div>
+    </div>
+</div>
+
+<script th:inline="javascript">
+        var CAPACITACIONES = /*[[${capacitacionesJson}]]*/ '[]';
+</script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/calendario.js}"></script>
+</body>
+</html>
