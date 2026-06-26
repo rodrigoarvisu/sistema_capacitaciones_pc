@@ -279,13 +279,21 @@
 
                     <!-- Footer del formulario -->
                     <div class="fc-form-footer">
-                        <button type="button" id="btn-limpiar" class="btn-primary-pc fc-btn-cancel">
-                            <i class="ti ti-trash"></i> Limpiar
+                        <button th:if="${capacitacion.id == null}" type="button"
+                        id="btn-limpiar" class="btn-primary-pc fc-btn-cancel">
+                        <i class="ti ti-trash"></i>Limpiar
+                        </button>
+
+                        <button th:if="${capacitacion.id != null}" type="button"
+                        onclick="history.back()" class="btn-primary-pc fc-btn-cancel">
+                        <i class="ti ti-arrow-left"></i> Cancelar
                         </button>
 
 
+
                         <button type="submit" class="btn-primary-pc fc-btn-submit">
-                            <i class="ti ti-device-floppy"></i> Guardar capacitación
+                          <i class="ti ti-device-floppy"></i>
+                          <span th:text="${capacitacion.id == null ? 'Guardar capacitación' : 'Guardar cambios'}"></span>
                         </button>
                     </div>
 

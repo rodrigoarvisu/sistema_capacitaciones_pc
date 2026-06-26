@@ -12,4 +12,6 @@ public class Estatus {
     private Long id;
 
     private String nombre;
+
+    private String descripcion;
 }
