@@ -106,17 +106,9 @@
                         <h3>Tipos de inmueble</h3>
                     </div>
                     <div class="cal-card-body">
-                        <div class="cal-leyenda-item">
-                            <span class="cal-dot cal-dot-escuela"></span> Escuela
-                        </div>
-                        <div class="cal-leyenda-item">
-                            <span class="cal-dot cal-dot-gobierno"></span> Dependencia de Gobierno
-                        </div>
-                        <div class="cal-leyenda-item">
-                            <span class="cal-dot cal-dot-empresa"></span> Empresa
-                        </div>
-                        <div class="cal-leyenda-item">
-                            <span class="cal-dot cal-dot-unidad"></span> Unidad Habitacional
+                        <div class="cal-leyenda-item" th:each="tipo : ${tiposInmueble}">
+                            <span class="cal-dot" th:style="'background:' + ${tipo.color}"></span>
+                            <span th:text="${tipo.nombre}">Tipo</span>
                         </div>
                     </div>
                 </div>
@@ -263,6 +255,7 @@
 
 <script th:inline="javascript">
         var CAPACITACIONES = /*[[${capacitacionesJson}]]*/ '[]';
+        var COLORES_TIPO_INMUEBLE = /*[[${coloresTipoInmuebleJson}]]*/ '{}';
 </script>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">

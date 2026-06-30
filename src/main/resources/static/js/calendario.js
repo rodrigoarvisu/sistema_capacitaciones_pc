@@ -18,7 +18,30 @@ document.addEventListener('DOMContentLoaded', function () {
               estatus: c.estatus.nombre
           };
       });
-       // ← Reemplaza por JSON.parse(CAPACITACIONES_BD) cuando conectes BD
+      
+      
+    var COLORES_BD = (typeof COLORES_TIPO_INMUEBLE !== 'undefined')
+       ? JSON.parse(COLORES_TIPO_INMUEBLE)
+        : {};
+
+    function colorPorTipoInmueble(nombreTipo) {
+    return COLORES_BD[nombreTipo] || '#9CA3AF';
+    }
+
+    function estiloEvento(ev) {
+    var hex = colorPorTipoInmueble(ev.tipoInmueble);
+    return 'background:' + hex + '22; border-left-color:' + hex + '; color:' + oscurecer(hex);
+    }
+
+    function oscurecer(hex) {
+     try {
+        var r = parseInt(hex.slice(1,3),16);
+        var g = parseInt(hex.slice(3,5),16);
+        var b = parseInt(hex.slice(5,7),16);
+        r = Math.round(r*0.55); g = Math.round(g*0.55); b = Math.round(b*0.55);
+        return 'rgb(' + r + ',' + g + ',' + b + ')';
+     } catch(e) { return '#374151'; }
+    }
 
     /* ===================== HELPERS ===================== */
     function hoy() { return new Date(); }
@@ -54,10 +77,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function claseEventoMes(tipoKey) { return claseEvento(tipoKey); }
 
-    function colorDot(tipoKey) {
-        var mapa = { escuela: '#EAB308', gobierno: '#3B82F6',
-                     empresa: '#22C55E', unidad: '#A855F7' };
-        return mapa[tipoKey] || '#9CA3AF';
+    function colorDot(ev) {
+        return colorPorTipoInmueble(ev.tipoInmueble);
     }
 
     function eventosEnFecha(isoStr) {
@@ -134,6 +155,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 evs.forEach(function (ev) {
                     var div = document.createElement('div');
                     div.className = 'cal-evento ' + claseEvento(ev.tipoKey);
+                    div.style.cssText = estiloEvento(ev);
                     div.innerHTML =
                         '<span class="ev-hora">' + ev.horaInicio + ' - ' + ev.horaFin + '</span>' +
                         '<span class="ev-nombre">' + ev.solicitante + '</span>' +
@@ -201,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function () {
             evs.slice(0, max).forEach(function (ev) {
                 var span = document.createElement('span');
                 span.className = 'cal-mes-evento ' + claseEventoMes(ev.tipoKey);
+                span.style.cssText = estiloEvento(ev);
                 span.textContent = ev.solicitante;
                 span.addEventListener('click', function () { abrirModal(ev); });
                 celda.appendChild(span);
@@ -281,7 +304,7 @@ document.addEventListener('DOMContentLoaded', function () {
             var item = document.createElement('div');
             item.className = 'cal-proxima-item';
             item.innerHTML =
-                '<span class="cal-proxima-dot" style="background:' + colorDot(ev.tipoKey) + '"></span>' +
+                '<span class="cal-proxima-dot" style="background:' + colorDot(ev) + '"></span>' +
                 '<div>' +
                     '<div class="cal-proxima-fecha">' + formatFechaLarga(ev.fecha) + ' · ' + ev.horaInicio + '</div>' +
                     '<div class="cal-proxima-nombre">' + ev.solicitante + '</div>' +
@@ -343,7 +366,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('modalEstatus').textContent          = ev.estatus;
 
         var dot = document.getElementById('modalDot');
-        if (dot) dot.style.background = colorDot(ev.tipoKey);
+        if (dot) dot.style.background = colorDot(ev);
 
         // Link de editar — ajusta la URL cuando tengas el endpoint de edición
         var linkEditar = document.getElementById('modalLinkEditar');
