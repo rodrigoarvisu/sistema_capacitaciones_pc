@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogos</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/catalogos.css}">
+</head>
+<body>
+<div class="layout">
+    <div th:replace="~{fragments/sidebar :: sidebar}"></div>
+    <main class="main-content">
+        <button id="btnSidebar" class="btn-sidebar" type="button">☰</button>
+
+        <div class="cat-page-header">
+            <div class="cat-page-header-left">
+                <div class="cat-page-header-icon"><i class="ti ti-folder"></i></div>
+                <div>
+                    <h1>Catálogos</h1>
+                    <p>Administra la información de los catálogos del sistema.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="cat-layout">
+            <div class="cat-main">
+
+                <!-- TIPOS DE INMUEBLE -->
+                <div class="cat-section">
+                    <div class="cat-section-header">
+                        <div>
+                            <h2>Tipos de inmueble</h2>
+                            <p>Catálogo que clasifica el tipo de inmueble atendido.</p>
+                        </div>
+                        <button type="button" class="cat-btn-nuevo" data-catalogo="tipoInmueble" data-titulo="Nuevo tipo de inmueble">
+                            <i class="ti ti-plus"></i> Nuevo tipo
+                        </button>
+                    </div>
+                    <div class="cat-table-wrap">
+                        <table class="cat-table">
+                            <thead>
+                                <tr><th style="width:60px">ID</th><th>Nombre</th><th>Color</th><th style="width:100px">Estatus</th><th style="width:110px">Acciones</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${tiposInmueble}">
+                                    <td th:text="${item.id}">1</td>
+                                    <td th:text="${item.nombre}">Escuela</td>
+                                    <td>
+                                        <div class="cat-color-preview">
+                                            <span class="cat-color-dot" th:style="'background:' + ${item.color}"></span>
+                                            <span th:text="${item.color}">#FACC15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="cat-badge-activo">Activo</span></td>
+                                    <td>
+                                        <div class="cat-acciones">
+                                            <button type="button" class="cat-btn-editar"
+                                                data-catalogo="tipoInmueble" data-titulo="Editar tipo de inmueble"
+                                                th:data-id="${item.id}" th:data-nombre="${item.nombre}" th:data-color="${item.color}">
+                                                <i class="ti ti-pencil"></i>
+                                            </button>
+                                            <form th:action="@{/catalogos/tipoInmueble/eliminar/{id}(id=${item.id})}" method="post" class="cat-form-eliminar">
+                                                <button type="submit" class="cat-btn-eliminar" onclick="return confirm('Eliminar este registro?')">
+                                                    <i class="ti ti-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(tiposInmueble)}">
+                                    <td colspan="5" class="cat-empty">Sin registros</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="cat-table-footer">Mostrando <span th:text="${#lists.size(tiposInmueble)}">0</span> registros</div>
+                    </div>
+                </div>
+
+                <!-- TIPOS DE CAPACITACIÓN -->
+                <div class="cat-section">
+                    <div class="cat-section-header">
+                        <div>
+                            <h2>Tipos de capacitación</h2>
+                            <p>Catálogo de los temas de capacitación que se imparten.</p>
+                        </div>
+                        <button type="button" class="cat-btn-nuevo" data-catalogo="tipoCapacitacion" data-titulo="Nuevo tipo de capacitación">
+                            <i class="ti ti-plus"></i> Nuevo tipo
+                        </button>
+                    </div>
+                    <div class="cat-table-wrap">
+                        <table class="cat-table">
+                            <thead>
+                                <tr><th style="width:60px">ID</th><th>Nombre</th><th>Descripción</th><th style="width:100px">Estatus</th><th style="width:110px">Acciones</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${tiposCapacitacion}">
+                                    <td th:text="${item.id}">1</td>
+                                    <td th:text="${item.nombre}">Primeros Auxilios</td>
+                                    <td th:text="${item.descripcion}">Descripción</td>
+                                    <td><span class="cat-badge-activo">Activo</span></td>
+                                    <td>
+                                        <div class="cat-acciones">
+                                            <button type="button" class="cat-btn-editar"
+                                                data-catalogo="tipoCapacitacion" data-titulo="Editar tipo de capacitación"
+                                                th:data-id="${item.id}" th:data-nombre="${item.nombre}" th:data-descripcion="${item.descripcion}">
+                                                <i class="ti ti-pencil"></i>
+                                            </button>
+                                            <form th:action="@{/catalogos/tipoCapacitacion/eliminar/{id}(id=${item.id})}" method="post" class="cat-form-eliminar">
+                                                <button type="submit" class="cat-btn-eliminar" onclick="return confirm('Eliminar este registro?')">
+                                                    <i class="ti ti-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(tiposCapacitacion)}">
+                                    <td colspan="5" class="cat-empty">Sin registros</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="cat-table-footer">Mostrando <span th:text="${#lists.size(tiposCapacitacion)}">0</span> registros</div>
+                    </div>
+                </div>
+
+                <!-- ESTATUS -->
+                <div class="cat-section">
+                    <div class="cat-section-header">
+                        <div>
+                            <h2>Estatus de capacitación</h2>
+                            <p>Catálogo de los estatus que puede tener una capacitación.</p>
+                        </div>
+                        <button type="button" class="cat-btn-nuevo" data-catalogo="estatus" data-titulo="Nuevo estatus">
+                            <i class="ti ti-plus"></i> Nuevo estatus
+                        </button>
+                    </div>
+                    <div class="cat-table-wrap">
+                        <table class="cat-table">
+                            <thead>
+                                <tr><th style="width:60px">ID</th><th>Nombre</th><th>Descripción</th><th style="width:100px">Estatus</th><th style="width:110px">Acciones</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="item : ${estatusLista}">
+                                    <td th:text="${item.id}">1</td>
+                                    <td th:text="${item.nombre}">Pendiente</td>
+                                    <td th:text="${item.descripcion}">Descripción</td>
+                                    <td><span class="cat-badge-activo">Activo</span></td>
+                                    <td>
+                                        <div class="cat-acciones">
+                                            <button type="button" class="cat-btn-editar"
+                                                data-catalogo="estatus" data-titulo="Editar estatus"
+                                                th:data-id="${item.id}" th:data-nombre="${item.nombre}" th:data-descripcion="${item.descripcion}">
+                                                <i class="ti ti-pencil"></i>
+                                            </button>
+                                            <form th:action="@{/catalogos/estatus/eliminar/{id}(id=${item.id})}" method="post" class="cat-form-eliminar">
+                                                <button type="submit" class="cat-btn-eliminar" onclick="return confirm('Eliminar este registro?')">
+                                                    <i class="ti ti-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr th:if="${#lists.isEmpty(estatusLista)}">
+                                    <td colspan="5" class="cat-empty">Sin registros</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="cat-table-footer">Mostrando <span th:text="${#lists.size(estatusLista)}">0</span> registros</div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- SIDEBAR -->
+            <aside class="cat-sidebar">
+                <div class="cat-info-box">
+                    <i class="ti ti-info-circle"></i>
+                    <p>Los catálogos permiten mantener la información organizada y consistente en todo el sistema.</p>
+                </div>
+                <div class="cat-card">
+                    <div class="cat-card-head"><i class="ti ti-settings"></i><span>Acciones disponibles</span></div>
+                    <div class="cat-card-body">
+                        <div class="cat-accion-item">
+                            <div class="cat-accion-icon cat-accion-editar"><i class="ti ti-pencil"></i></div>
+                            <div><div class="cat-accion-titulo">Editar</div><div class="cat-accion-desc">Modifica la información del registro seleccionado.</div></div>
+                        </div>
+                        <div class="cat-accion-item">
+                            <div class="cat-accion-icon cat-accion-eliminar"><i class="ti ti-trash"></i></div>
+                            <div><div class="cat-accion-titulo">Eliminar</div><div class="cat-accion-desc">Elimina un registro del catálogo. (Esta acción no se puede deshacer)</div></div>
+                        </div>
+                        <div class="cat-accion-item">
+                            <div class="cat-accion-icon cat-accion-nuevo"><i class="ti ti-plus"></i></div>
+                            <div><div class="cat-accion-titulo">Nuevo</div><div class="cat-accion-desc">Agrega un nuevo registro al catálogo.</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cat-card">
+                    <div class="cat-card-head"><i class="ti ti-chart-bar"></i><span>Resumen de catálogos</span></div>
+                    <div class="cat-card-body">
+                        <div class="cat-resumen-item">
+                            <div class="cat-resumen-icon" style="background:#FEF9C3"><i class="ti ti-home" style="color:#B45309"></i></div>
+                            <div><div class="cat-resumen-nombre">Tipos de inmueble</div><div class="cat-resumen-count"><span th:text="${#lists.size(tiposInmueble)}">0</span> registros</div></div>
+                        </div>
+                        <div class="cat-resumen-item">
+                            <div class="cat-resumen-icon" style="background:#DBEAFE"><i class="ti ti-book" style="color:#1D4ED8"></i></div>
+                            <div><div class="cat-resumen-nombre">Tipos de capacitación</div><div class="cat-resumen-count"><span th:text="${#lists.size(tiposCapacitacion)}">0</span> registros</div></div>
+                        </div>
+                        <div class="cat-resumen-item">
+                            <div class="cat-resumen-icon" style="background:#DCFCE7"><i class="ti ti-flag" style="color:#166534"></i></div>
+                            <div><div class="cat-resumen-nombre">Estatus de capacitación</div><div class="cat-resumen-count"><span th:text="${#lists.size(estatusLista)}">0</span> registros</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="cat-tip-box">
+                    <i class="ti ti-circle-check"></i>
+                    <div><div class="cat-tip-titulo">Tip</div><p>Mantener los catálogos actualizados garantiza la calidad y consistencia de la información en todo el sistema.</p></div>
+                </div>
+            </aside>
+        </div>
+    </main>
+</div>
+
+<!-- MODAL -->
+<div class="cat-modal-overlay" id="modalCatalogo">
+    <div class="cat-modal">
+        <div class="cat-modal-head">
+            <h2 id="modalTitulo">Nuevo registro</h2>
+            <button type="button" class="cat-modal-close" id="btnCerrarModal"><i class="ti ti-x"></i></button>
+        </div>
+
+        <!-- Form TipoInmueble -->
+        <form id="formTipoInmueble" class="cat-modal-body" style="display:none" method="post">
+            <input type="hidden" name="id" id="tiInmuebleId">
+            <div class="cat-field">
+                <label>Nombre <span class="cat-req">*</span></label>
+                <div class="cat-input-wrap"><i class="ti ti-home"></i>
+                    <input type="text" id="tiInmuebleNombre" name="nombre" placeholder="Ej. Escuela, Empresa..." required>
+                </div>
+            </div>
+            <div class="cat-field">
+                <label>Color <span class="cat-req">*</span></label>
+                <div class="cat-color-field">
+                    <input type="color" id="tiInmuebleColorPicker" value="#FACC15">
+                    <input type="text" id="tiInmuebleColor" name="color" placeholder="#FACC15" maxlength="7">
+                    <span class="cat-color-sample" id="tiInmueblePreview"></span>
+                </div>
+                <span class="cat-field-hint">Se usa para identificar el tipo en el calendario.</span>
+            </div>
+            <div class="cat-modal-footer">
+                <button type="button" class="cat-btn-outline" data-cerrar>Cancelar</button>
+                <button type="submit" class="cat-btn-primary"><i class="ti ti-device-floppy"></i> Guardar</button>
+            </div>
+        </form>
+
+        <!-- Form TipoCapacitacion -->
+        <form id="formTipoCapacitacion" class="cat-modal-body" style="display:none" method="post">
+            <input type="hidden" name="id" id="tiCapacitacionId">
+            <div class="cat-field">
+                <label>Nombre <span class="cat-req">*</span></label>
+                <div class="cat-input-wrap"><i class="ti ti-book"></i>
+                    <input type="text" id="tiCapacitacionNombre" name="nombre" placeholder="Ej. Primeros Auxilios..." required>
+                </div>
+            </div>
+            <div class="cat-field">
+                <label>Descripción</label>
+                <div class="cat-input-wrap"><i class="ti ti-align-left"></i>
+                    <input type="text" id="tiCapacitacionDesc" name="descripcion" placeholder="Breve descripción">
+                </div>
+            </div>
+            <div class="cat-modal-footer">
+                <button type="button" class="cat-btn-outline" data-cerrar>Cancelar</button>
+                <button type="submit" class="cat-btn-primary"><i class="ti ti-device-floppy"></i> Guardar</button>
+            </div>
+        </form>
+
+        <!-- Form Estatus -->
+        <form id="formEstatus" class="cat-modal-body" style="display:none" method="post">
+            <input type="hidden" name="id" id="estatusId">
+            <div class="cat-field">
+                <label>Nombre <span class="cat-req">*</span></label>
+                <div class="cat-input-wrap"><i class="ti ti-flag"></i>
+                    <input type="text" id="estatusNombre" name="nombre" placeholder="Ej. Confirmada, Pendiente..." required>
+                </div>
+            </div>
+            <div class="cat-field">
+                <label>Descripción</label>
+                <div class="cat-input-wrap"><i class="ti ti-align-left"></i>
+                    <input type="text" id="estatusDesc" name="descripcion" placeholder="Breve descripción">
+                </div>
+            </div>
+            <div class="cat-modal-footer">
+                <button type="button" class="cat-btn-outline" data-cerrar>Cancelar</button>
+                <button type="submit" class="cat-btn-primary"><i class="ti ti-device-floppy"></i> Guardar</button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+<script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/catalogos.js}"></script>
+</body>
+</html>

@@ -513,7 +513,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px;
-    border-bottom: 1px solid var(--pc-borde);
+    border-bottom: 1px solid var(--pc-dorado-suave);
 }
 .cal-modal-head-left {
     display: flex;
@@ -583,7 +583,7 @@
     justify-content: flex-end;
     gap: 10px;
     padding: 14px 20px;
-    border-top: 1px solid var(--pc-borde);
+    border-top: 1px solid var(--pc-dorado-suave);
 }
 
 /* ---- Responsive ---- */
