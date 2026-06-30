@@ -317,27 +317,44 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /* ===================== KPIs ===================== */
     function renderKpis() {
-        var hoyDate = new Date();
-        var mesActual = hoyDate.getMonth();
-        var añoActual = hoyDate.getFullYear();
+    var hoyDate = new Date();
+    var mesActual = hoyDate.getMonth();
+    var añoActual = hoyDate.getFullYear();
 
-        var delMes = EVENTOS.filter(function (e) {
-            var p = e.fecha.split('-');
-            return parseInt(p[1], 10) - 1 === mesActual && parseInt(p[0], 10) === añoActual;
-        });
+    var delMes = EVENTOS.filter(function (e) {
+        var p = e.fecha.split('-');
+        return parseInt(p[1], 10) - 1 === mesActual && parseInt(p[0], 10) === añoActual;
+    });
 
-        function count(key) {
-            return delMes.filter(function (e) { return e.tipoKey === key; }).length;
-        }
+    // Total general
+    var el = function (id) { return document.getElementById(id); };
+    if (el('kpiTotal')) el('kpiTotal').textContent = delMes.length;
 
-        var el = function (id) { return document.getElementById(id); };
-        if (el('kpiTotal'))    el('kpiTotal').textContent    = delMes.length;
-        if (el('kpiEmpresas')) el('kpiEmpresas').textContent = count('empresa');
-        if (el('kpiEscuelas')) el('kpiEscuelas').textContent = count('escuela');
-        if (el('kpiGobierno')) el('kpiGobierno').textContent = count('gobierno');
-        if (el('kpiHabitacional')) el('kpiHabitacional').textContent = count('unidad');
-    }
+    // Genera una tarjeta por cada tipo de inmueble que exista en el catálogo
+    var kpiRow = document.getElementById('kpiRow');
+    if (!kpiRow) return;
+    kpiRow.innerHTML = '';
 
+    // Obtiene los tipos únicos presentes en COLORES_BD (viene del catálogo real)
+    var tipos = Object.keys(COLORES_BD);
+
+    tipos.forEach(function (nombreTipo) {
+        var color = colorPorTipoInmueble(nombreTipo);
+        var cantidad = delMes.filter(function (e) {
+            return e.tipoInmueble === nombreTipo;
+        }).length;
+
+        var div = document.createElement('div');
+        div.className = 'cal-kpi-mini';
+        div.innerHTML =
+            '<i class="ti ti-building" style="color:' + color + '"></i>' +
+            '<div>' +
+                '<span class="cal-kpi-num" style="color:' + color + '">' + cantidad + '</span>' +
+                '<span class="cal-kpi-lbl">' + nombreTipo + '</span>' +
+            '</div>';
+        kpiRow.appendChild(div);
+    });
+}
     /* ===================== RENDERIZADO COMPLETO ===================== */
     function renderTodo() {
         if (vista === 'semana') {
