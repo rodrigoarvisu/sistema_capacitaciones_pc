@@ -122,6 +122,12 @@ document.addEventListener('DOMContentLoaded', function () {
         var activo   = item.getAttribute('data-activo') === 'true';
         var id       = item.getAttribute('data-id')       || '';
 
+        // Actualiza los links de "Ver todas" e "Historial"
+        var linkProximas = document.getElementById('linkProximas');
+        var linkHistorial = document.getElementById('linkHistorial');
+        if (linkProximas) linkProximas.href = '/instructores/' + id + '/proximas';
+        if (linkHistorial) linkHistorial.href = '/instructores/' + id + '/historial';
+
         instructorSeleccionado = { id: id, nombre: nombre, telefono: telefono, activo: activo };
 
         fetch(`/instructores/resumen/${id}`)

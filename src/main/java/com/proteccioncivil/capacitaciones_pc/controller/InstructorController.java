@@ -2,7 +2,10 @@ package com.proteccioncivil.capacitaciones_pc.controller;
 
 import com.proteccioncivil.capacitaciones_pc.entity.Capacitacion;
 import com.proteccioncivil.capacitaciones_pc.entity.Instructor;
+import com.proteccioncivil.capacitaciones_pc.entity.TipoInmueble;
 import com.proteccioncivil.capacitaciones_pc.repository.CapacitacionRepository;
+import com.proteccioncivil.capacitaciones_pc.repository.TipoInmuebleRepository;
+import com.proteccioncivil.capacitaciones_pc.service.CapacitacionService;
 import com.proteccioncivil.capacitaciones_pc.service.InstructorService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/instructores")
@@ -20,11 +24,17 @@ public class InstructorController {
 
     private final InstructorService instructorService;
     private final CapacitacionRepository capacitacionRepository;
+    private final CapacitacionService capacitacionService;
+    private final TipoInmuebleRepository tipoInmuebleRepository;
 
     public InstructorController(InstructorService instructorService,
-                                CapacitacionRepository capacitacionRepository) {
+                                CapacitacionRepository capacitacionRepository,
+                                CapacitacionService capacitacionService,
+                                TipoInmuebleRepository tipoInmuebleRepository) {
         this.instructorService = instructorService;
         this.capacitacionRepository = capacitacionRepository;
+        this.capacitacionService = capacitacionService;
+        this.tipoInmuebleRepository = tipoInmuebleRepository;
     }
 
     // Muestra la vista con el catálogo de instructores
@@ -130,4 +140,34 @@ public class InstructorController {
         datos.put("historial", historial);
         return datos;
     }
+
+    @GetMapping("/{id}/proximas")
+    public String proximasCapacitaciones(@PathVariable Long id, Model model) {
+        Instructor instructor = instructorService.obtenerPorId(id);
+        List<TipoInmueble> tipos = tipoInmuebleRepository.findAll();
+        Map<String, String> coloresPorTipo = tipos.stream()
+                .collect(Collectors.toMap(TipoInmueble::getNombre, TipoInmueble::getColor));
+        model.addAttribute("coloresTipoInmueble", coloresPorTipo);
+        model.addAttribute("instructor", instructor);
+        model.addAttribute("capacitaciones", capacitacionService.obtenerProximasPorInstructor(id));
+        model.addAttribute("modo", "proximas");
+        model.addAttribute("paginaActiva", "instructores");
+        return "instructor-capacitaciones";
+    }
+
+    @GetMapping("/{id}/historial")
+    public String historialCapacitaciones(@PathVariable Long id, Model model) {
+        Instructor instructor = instructorService.obtenerPorId(id);
+        List<TipoInmueble> tipos = tipoInmuebleRepository.findAll();
+        Map<String, String> coloresPorTipo = tipos.stream()
+                .collect(Collectors.toMap(TipoInmueble::getNombre, TipoInmueble::getColor));
+        model.addAttribute("coloresTipoInmueble", coloresPorTipo);
+        model.addAttribute("instructor", instructor);
+        model.addAttribute("capacitaciones", capacitacionService.obtenerHistorialPorInstructor(id));
+        model.addAttribute("modo", "historial");
+        model.addAttribute("paginaActiva", "instructores");
+        return "instructor-capacitaciones";
+    }
+
+
 }

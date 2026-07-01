@@ -42,7 +42,7 @@ public class CapacitacionController {
         model.addAttribute("tiposCapacitacion", tipoCapacitacionRepository.findAll());
         model.addAttribute("estatusLista", estatusRepository.findAll());
         model.addAttribute("paginaActiva", "capacitaciones");
-        model.addAttribute("instructor", instructorRepository.findAll());
+        model.addAttribute("instructor", instructorRepository.findByActivoTrue());
 
         return "capacitaciones";
     }

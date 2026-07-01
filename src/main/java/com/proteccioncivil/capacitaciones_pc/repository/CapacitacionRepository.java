@@ -40,6 +40,5 @@ public interface CapacitacionRepository
             Long instructorId,
             LocalDate fecha
     );
-
-
+    
 }

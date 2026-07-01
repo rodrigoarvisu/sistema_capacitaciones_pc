@@ -15,5 +15,6 @@ public class Instructor {
 
     private String telefono;
 
-    private Boolean activo;
+    @Column(nullable = false)
+    private Boolean activo = true;
 }
