@@ -74,6 +74,22 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
+    function actualizarTotalBeneficiarios() {
+
+    const hombres = parseInt(document.getElementById("hombres").value) || 0;
+    const mujeres = parseInt(document.getElementById("mujeres").value) || 0;
+    const ninos = parseInt(document.getElementById("ninos").value) || 0;
+
+    document.getElementById("totalBeneficiarios").textContent =
+        hombres + mujeres + ninos;
+}
+
+["hombres","mujeres","ninos"].forEach(id => {
+    document.getElementById(id).addEventListener("input", actualizarTotalBeneficiarios);
+});
+
+actualizarTotalBeneficiarios();
+
     // --- Notificación de guardado exitoso (vía query param ?guardado=true) ---
     var params = new URLSearchParams(window.location.search);
     if (params.get('guardado') === 'true') {

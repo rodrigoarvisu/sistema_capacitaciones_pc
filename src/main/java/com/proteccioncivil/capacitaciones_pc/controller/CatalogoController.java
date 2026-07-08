@@ -6,6 +6,7 @@ import com.proteccioncivil.capacitaciones_pc.entity.TipoCapacitacion;
 import com.proteccioncivil.capacitaciones_pc.repository.EstatusRepository;
 import com.proteccioncivil.capacitaciones_pc.repository.TipoCapacitacionRepository;
 import com.proteccioncivil.capacitaciones_pc.repository.TipoInmuebleRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,8 +44,13 @@ public class CatalogoController {
 
         @PostMapping("/tipoInmueble/eliminar/{id}")
         public String eliminarTipoInmueble(@PathVariable Long id) {
-            tipoInmuebleRepository.deleteById(id);
-            return "redirect:/catalogos?eliminado=true";
+            try {
+                tipoInmuebleRepository.deleteById(id);
+                return "redirect:/catalogos?eliminado=true";
+
+            } catch (DataIntegrityViolationException e) {
+                return "redirect:/catalogos?noEliminar=true";
+            }
         }
 
         @PostMapping("/tipoCapacitacion/guardar")
@@ -70,4 +76,6 @@ public class CatalogoController {
               estatusRepository.deleteById(id);
               return "redirect:/catalogos?eliminado=true";
         }
+
+
 }

@@ -1,32 +1,234 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
     <title>Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
     <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}">
 </head>
-
 <body>
-
 <div class="layout">
-
     <div th:replace="~{fragments/sidebar :: sidebar}"></div>
-
     <main class="main-content">
+        <button id="btnSidebar" class="btn-sidebar" type="button">☰</button>
 
-        <button id="btnSidebar" class="btn-sidebar" type="button">
-            ☰
-        </button>
+        <!-- Page header -->
+        <div class="db-header">
+            <div class="db-header-left">
+                <div class="db-header-icon"><i class="ti ti-chart-bar"></i></div>
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Resumen general de capacitaciones e impacto.</p>
+                </div>
+            </div>
+            <div class="db-header-fecha">
+                <i class="ti ti-calendar"></i>
+                <span th:text="${#temporals.format(#temporals.createNow(), 'dd ''de'' MMMM ''de'' yyyy', new java.util.Locale('es'))}">Fecha</span>
+            </div>
+        </div>
 
-        <h1>Dashboard</h1>
+        <!-- Filtros -->
+        <form th:action="@{/}" method="get" th:object="${filtro}" class="db-filtros">
+            <div class="db-filtros-grid">
+                <div class="db-field">
+                    <label>Tipo de inmueble</label>
+                    <div class="db-input-wrap">
+                        <i class="ti ti-home"></i>
+                        <select th:field="*{tipoInmuebleId}">
+                            <option value="">Todos</option>
+                            <option th:each="t : ${tiposInmueble}" th:value="${t.id}" th:text="${t.nombre}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="db-field">
+                    <label>Tipo de capacitación</label>
+                    <div class="db-input-wrap">
+                        <i class="ti ti-book"></i>
+                        <select th:field="*{tipoCapacitacionId}">
+                            <option value="">Todas</option>
+                            <option th:each="t : ${tiposCapacitacion}" th:value="${t.id}" th:text="${t.nombre}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="db-field">
+                    <label>Instructor</label>
+                    <div class="db-input-wrap">
+                        <i class="ti ti-user-star"></i>
+                        <select th:field="*{instructorId}">
+                            <option value="">Todos</option>
+                            <option th:each="i : ${instructores}" th:value="${i.id}" th:text="${i.nombre}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="db-field">
+                    <label>Estatus</label>
+                    <div class="db-input-wrap">
+                        <i class="ti ti-flag"></i>
+                        <select th:field="*{estatusId}">
+                            <option value="">Todos</option>
+                            <option th:each="e : ${estatusLista}" th:value="${e.id}" th:text="${e.nombre}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="db-field">
+                    <label>Fecha inicio</label>
+                    <div class="db-input-wrap">
+                        <i class="ti ti-calendar"></i>
+                        <input type="date" th:field="*{fechaInicio}">
+                    </div>
+                </div>
+                <div class="db-field">
+                    <label>Fecha fin</label>
+                    <div class="db-input-wrap">
+                        <i class="ti ti-calendar"></i>
+                        <input type="date" th:field="*{fechaFin}">
+                    </div>
+                </div>
+            </div>
+            <div class="db-filtros-footer">
+                <a th:href="@{/}" class="db-btn-limpiar"><i class="ti ti-refresh"></i> Limpiar</a>
+                <button type="submit" class="db-btn-filtrar"><i class="ti ti-filter"></i> Filtrar</button>
+            </div>
+        </form>
 
-        <p>Bienvenido al sistema.</p>
+        <!-- KPIs principales -->
+        <div class="db-kpis">
+            <div class="db-kpi-card">
+                <div class="db-kpi-icon" style="background:#EFF6FF"><i class="ti ti-calendar-event" style="color:#2563EB"></i></div>
+                <div>
+                    <span class="db-kpi-label">CAPACITACIONES TOTALES</span>
+                    <span class="db-kpi-valor" th:text="${total}">0</span>
+                    <span class="db-kpi-sub">en el período</span>
+                </div>
+            </div>
+            <div class="db-kpi-card">
+                <div class="db-kpi-icon" style="background:#DCFCE7"><i class="ti ti-circle-check" style="color:#16A34A"></i></div>
+                <div>
+                    <span class="db-kpi-label">REALIZADAS</span>
+                    <span class="db-kpi-valor" th:text="${realizadas}">0</span>
+                    <span class="db-kpi-sub" th:text="${total > 0 ? #numbers.formatDecimal(realizadas * 100.0 / total, 1, 1) + '% del total' : '0% del total'}">0%</span>
+                </div>
+            </div>
+            <div class="db-kpi-card">
+                <div class="db-kpi-icon" style="background:#FEF9C3"><i class="ti ti-clock" style="color:#EAB308"></i></div>
+                <div>
+                    <span class="db-kpi-label">PROGRAMADAS</span>
+                    <span class="db-kpi-valor" th:text="${programadas}">0</span>
+                    <span class="db-kpi-sub">pendientes</span>
+                </div>
+            </div>
+            <div class="db-kpi-card">
+                <div class="db-kpi-icon" style="background:#FEF2F2"><i class="ti ti-circle-x" style="color:#DC2626"></i></div>
+                <div>
+                    <span class="db-kpi-label">CANCELADAS</span>
+                    <span class="db-kpi-valor" th:text="${canceladas}">0</span>
+                    <span class="db-kpi-sub" th:text="${total > 0 ? #numbers.formatDecimal(canceladas * 100.0 / total, 1, 1) + '% del total' : '0% del total'}">0%</span>
+                </div>
+            </div>
+            <div class="db-kpi-card">
+                <div class="db-kpi-icon" style="background:#F3E8FF"><i class="ti ti-clock-hour-4" style="color:#9333EA"></i></div>
+                <div>
+                    <span class="db-kpi-label">HORAS IMPARTIDAS</span>
+                    <span class="db-kpi-valor" th:text="${horas}">0</span>
+                    <span class="db-kpi-sub">horas totales</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficas fila 1 -->
+        <div class="db-graficas-row">
+            <div class="db-card">
+                <div class="db-card-head"><h2>Capacitaciones por tipo de inmueble</h2></div>
+                <div class="db-card-body db-chart-wrap">
+                    <canvas id="chartInmueble"></canvas>
+                    <div class="db-chart-legend" id="legendInmueble"></div>
+                </div>
+            </div>
+            <div class="db-card">
+                <div class="db-card-head"><h2>Capacitaciones por tipo de capacitación</h2></div>
+                <div class="db-card-body">
+                    <canvas id="chartCapacitacion" style="max-height:220px"></canvas>
+                </div>
+            </div>
+            <div class="db-card">
+                <div class="db-card-head"><h2>Beneficiados en el período</h2></div>
+                <div class="db-card-body">
+                    <div class="db-beneficiarios">
+                        <div class="db-ben-item">
+                            <div class="db-ben-icon" style="background:#DBEAFE"><i class="ti ti-man" style="color:#2563EB;font-size:24px"></i></div>
+                            <span class="db-ben-label">Hombres</span>
+                            <span class="db-ben-valor" th:text="${totalHombres}">0</span>
+                        </div>
+                        <div class="db-ben-item">
+                            <div class="db-ben-icon" style="background:#FCE7F3"><i class="ti ti-woman" style="color:#DB2777;font-size:24px"></i></div>
+                            <span class="db-ben-label">Mujeres</span>
+                            <span class="db-ben-valor" th:text="${totalMujeres}">0</span>
+                        </div>
+                        <div class="db-ben-item">
+                            <div class="db-ben-icon" style="background:#DCFCE7"><i class="ti ti-baby-carriage" style="color:#16A34A;font-size:24px"></i></div>
+                            <span class="db-ben-label">Niños</span>
+                            <span class="db-ben-valor" th:text="${totalNinos}">0</span>
+                        </div>
+                    </div>
+                    <div class="db-ben-total">
+                        <i class="ti ti-users"></i>
+                        <span>Total de beneficiados</span>
+                        <strong th:text="${totalBeneficiarios}">0</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Gráficas fila 2 -->
+        <div class="db-graficas-row2">
+            <div class="db-card">
+                <div class="db-card-head"><h2>Capacitaciones por semana</h2></div>
+                <div class="db-card-body">
+                    <canvas id="chartSemana" style="max-height:200px"></canvas>
+                </div>
+            </div>
+            <div class="db-card">
+                <div class="db-card-head"><h2>Capacitaciones por estatus</h2></div>
+                <div class="db-card-body db-chart-wrap">
+                    <canvas id="chartEstatus"></canvas>
+                    <div class="db-chart-legend" id="legendEstatus"></div>
+                </div>
+            </div>
+            <div class="db-card">
+                <div class="db-card-head db-card-head-row">
+                    <h2>Próximas capacitaciones</h2>
+                    <a th:href="@{/calendario}" class="db-link">Ver calendario completo →</a>
+                </div>
+                <div class="db-card-body" style="padding:0">
+                    <table class="db-proximas-table">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Hora</th>
+                                <th>Solicitante</th>
+                                <th>Tipo</th>
+                                <th>Instructor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaProximas">
+                            <!-- Llenado por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
     </main>
-
 </div>
 
+<script th:inline="javascript">
+    var GRAFICAS  = /*[[${graficasJson}]]*/ '{}';
+    var PROXIMAS  = /*[[${proximasJson}]]*/ '[]';
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>

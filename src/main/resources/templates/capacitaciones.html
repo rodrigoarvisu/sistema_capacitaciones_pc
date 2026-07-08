@@ -277,6 +277,59 @@
                         </div>
                     </div>
 
+                    <div class="fc-section">
+    <div class="fc-section-head">
+        <i class="ti ti-users"></i>
+        <div>
+            <h2>Beneficiarios</h2>
+            <span>Personas capacitadas</span>
+        </div>
+    </div>
+
+    <div class="fc-grid">
+
+        <div class="fc-field">
+            <label>Hombres</label>
+            <div class="fc-input-wrap">
+                <i class="ti ti-man"></i>
+                <input type="number"
+                       min="0"
+                       id="hombres"
+                       th:field="*{hombres}">
+            </div>
+        </div>
+
+        <div class="fc-field">
+            <label>Mujeres</label>
+            <div class="fc-input-wrap">
+                <i class="ti ti-woman"></i>
+                <input type="number"
+                       min="0"
+                       id="mujeres"
+                       th:field="*{mujeres}">
+            </div>
+        </div>
+
+        <div class="fc-field">
+            <label>Niños</label>
+            <div class="fc-input-wrap">
+                <i class="ti ti-baby-carriage"></i>
+                <input type="number"
+                       min="0"
+                       id="ninos"
+                       th:field="*{ninos}">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="fc-total-beneficiarios">
+        Total:
+        <strong id="totalBeneficiarios">0</strong>
+        beneficiarios
+    </div>
+</div>
+
                     <!-- Footer del formulario -->
                     <div class="fc-form-footer">
                         <button th:if="${capacitacion.id == null}" type="button"

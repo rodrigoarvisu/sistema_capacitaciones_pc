@@ -38,4 +38,9 @@ public class CapacitacionService {
                 .findByInstructorIdAndFechaLessThanOrderByFechaDesc(
                         instructorId, LocalDate.now());
     }
+
+    public void eliminar(Long id) {
+        capacitacionRepository.deleteById(id);
+    }
+
 }

@@ -62,7 +62,7 @@
                                                 <i class="ti ti-pencil"></i>
                                             </button>
                                             <form th:action="@{/catalogos/tipoInmueble/eliminar/{id}(id=${item.id})}" method="post" class="cat-form-eliminar">
-                                                <button type="submit" class="cat-btn-eliminar" onclick="return confirm('Eliminar este registro?')">
+                                                <button type="submit" class="cat-btn-eliminar">
                                                     <i class="ti ti-trash"></i>
                                                 </button>
                                             </form>
@@ -108,7 +108,7 @@
                                                 <i class="ti ti-pencil"></i>
                                             </button>
                                             <form th:action="@{/catalogos/tipoCapacitacion/eliminar/{id}(id=${item.id})}" method="post" class="cat-form-eliminar">
-                                                <button type="submit" class="cat-btn-eliminar" onclick="return confirm('Eliminar este registro?')">
+                                                <button type="submit" class="cat-btn-eliminar">
                                                     <i class="ti ti-trash"></i>
                                                 </button>
                                             </form>
@@ -154,7 +154,7 @@
                                                 <i class="ti ti-pencil"></i>
                                             </button>
                                             <form th:action="@{/catalogos/estatus/eliminar/{id}(id=${item.id})}" method="post" class="cat-form-eliminar">
-                                                <button type="submit" class="cat-btn-eliminar" onclick="return confirm('Eliminar este registro?')">
+                                                <button type="submit" class="cat-btn-eliminar">
                                                     <i class="ti ti-trash"></i>
                                                 </button>
                                             </form>
@@ -299,6 +299,7 @@
 </div>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
 <script th:src="@{/js/sidebar.js}"></script>
 <script th:src="@{/js/catalogos.js}"></script>

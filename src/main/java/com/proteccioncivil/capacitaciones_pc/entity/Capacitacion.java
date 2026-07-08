@@ -60,4 +60,13 @@ public class Capacitacion {
     @ManyToOne
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
+
+    @Column(nullable = false)
+    private Integer hombres = 0;
+
+    @Column(nullable = false)
+    private Integer mujeres = 0;
+
+    @Column(nullable = false)
+    private Integer ninos = 0;
 }
