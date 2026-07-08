@@ -301,6 +301,7 @@
     border-bottom: 1px solid var(--pc-dorado-suave);
     padding: 6px;
     position: relative;
+    overflow: hidden;
 }
 .cal-mes-celda:nth-child(7n) { border-right: none; }
 .cal-mes-celda.fuera-mes { background: #FAFAFA; }
@@ -324,17 +325,20 @@
     color: #fff;
 }
 .cal-mes-evento {
-    display: block;
+   display: block;
     font-size: 11px;
     font-weight: 600;
     padding: 2px 6px;
     border-radius: 4px;
     margin-bottom: 2px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+
+    /* Agregar estas 3 líneas: */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    cursor: pointer;
-    transition: opacity 0.15s;
+    max-width: 100%;
 }
 .cal-mes-evento:hover { opacity: 0.8; }
 .cal-mas-eventos {

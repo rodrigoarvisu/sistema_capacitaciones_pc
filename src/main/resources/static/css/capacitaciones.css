@@ -156,6 +156,11 @@
     padding-left: 40px !important;
 }
 
+.fc-header-fecha {
+    display: flex; align-items: center; gap: 6px;
+    font-size: 13px; color: var(--pc-texto-suave); font-weight: 600; 
+}
+
 /* Inputs y selects globales dentro del formulario */
 .fc-form input,
 .fc-form select,

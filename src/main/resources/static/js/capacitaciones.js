@@ -38,6 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         set('resumen-inmueble',    selectText('tipoInmueble'));
         set('resumen-tipo',        selectText('tipoCapacitacion'));
         set('resumen-fecha',       formatFecha(val('fecha')));
+        set('resumen-instructores', selectText('instructor'));
         set('resumen-estatus',     selectText('estatus'));
 
         var hi = val('horaInicio');
@@ -49,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // --- Resumen en vivo: escucha cambios en los campos ---
     var ids = ['nombreSolicitante','tipoInmueble','tipoCapacitacion',
-               'fecha','horaInicio','horaFin','estatus'];
+               'fecha','horaInicio','horaFin', 'instructor', 'estatus'];
 
     ids.forEach(function (id) {
         var el = document.getElementById(id);

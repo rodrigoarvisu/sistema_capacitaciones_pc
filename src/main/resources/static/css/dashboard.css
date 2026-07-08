@@ -93,6 +93,7 @@
 .db-card-head h2 { font-size: 13px; font-weight: 700; color: var(--pc-texto); margin: 0; }
 .db-card-head-row { display: flex; align-items: center; justify-content: space-between; }
 .db-card-body { padding: 16px; }
+.db-chart-body { display: flex; align-items: center; justify-content: center; min-height: 160px; }
 .db-link { font-size: 12px; color: #185FA5; text-decoration: none; font-weight: 600; }
 .db-link:hover { text-decoration: underline; }
 
@@ -137,6 +138,35 @@
     letter-spacing: 0.3px; color: var(--pc-texto-suave); padding: 9px 12px;
     border-bottom: 1px solid var(--pc-borde); background: #FAFAFA; white-space: nowrap;
 }
+
+/* Altura mínima para cards de gráficas vacías */
+.db-chart-body {
+    min-height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Próximas — quitar padding del body para que la tabla pegue al header */
+.db-proximas-wrap {
+    padding: 0;
+}
+
+/* Beneficiados — alinear valor debajo del ícono */
+.db-ben-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+}
+.db-ben-valor {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--pc-texto);
+}
+
 .db-proximas-table td {
     font-size: 12px; color: var(--pc-texto); padding: 9px 12px;
     border-bottom: 1px solid var(--pc-borde); vertical-align: middle;

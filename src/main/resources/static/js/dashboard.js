@@ -4,14 +4,14 @@ document.addEventListener('DOMContentLoaded', function () {
     var proximas = JSON.parse(PROXIMAS);
 
     /* ===================== HELPERS ===================== */
-    function hexAlpha(hex, alpha) {
-        // Convierte #RRGGBB a rgba con transparencia
-        try {
-            var r = parseInt(hex.slice(1,3),16);
-            var g = parseInt(hex.slice(3,5),16);
-            var b = parseInt(hex.slice(5,7),16);
-            return 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')';
-        } catch(e) { return hex; }
+    function mostrarVacio(canvasId) {
+        var canvas = document.getElementById(canvasId);
+        if (!canvas) return;
+        canvas.style.display = 'none';
+        var p = document.createElement('p');
+        p.style.cssText = 'text-align:center;color:#9CA3AF;font-size:13px;padding:30px 0;width:100%;margin:0';
+        p.textContent = 'Sin datos en el período.';
+        canvas.parentElement.appendChild(p);
     }
 
     function buildLegend(containerId, labels, data, colors) {
@@ -30,15 +30,16 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    var chartDefaults = {
-        font: { family: 'Arial, sans-serif' },
-        plugins: { legend: { display: false } }
-    };
+    /* ===================== INSTANCIAS DE GRÁFICAS ===================== */
+    var chartInmuebleInst = null;
+    var chartCapInst      = null;
+    var chartSemanaInst   = null;
+    var chartEstatusInst  = null;
 
     /* ===================== GRÁFICA 1: DONA — TIPO DE INMUEBLE ===================== */
     var ctxInmueble = document.getElementById('chartInmueble');
     if (ctxInmueble && g.inmuebleLabels && g.inmuebleLabels.length > 0) {
-        new Chart(ctxInmueble, {
+        chartInmuebleInst = new Chart(ctxInmueble, {
             type: 'doughnut',
             data: {
                 labels: g.inmuebleLabels,
@@ -68,14 +69,12 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
         buildLegend('legendInmueble', g.inmuebleLabels, g.inmuebleData, g.inmuebleColores);
-    } else if (ctxInmueble) {
-        ctxInmueble.parentElement.innerHTML += '<p style="text-align:center;color:#9CA3AF;font-size:13px;padding:20px">Sin datos en el período.</p>';
     }
 
     /* ===================== GRÁFICA 2: BARRAS — TIPO DE CAPACITACIÓN ===================== */
     var ctxCap = document.getElementById('chartCapacitacion');
     if (ctxCap && g.capLabels && g.capLabels.length > 0) {
-        new Chart(ctxCap, {
+        chartCapInst = new Chart(ctxCap, {
             type: 'bar',
             data: {
                 labels: g.capLabels,
@@ -102,7 +101,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ===================== GRÁFICA 3: LÍNEA — POR SEMANA ===================== */
     var ctxSemana = document.getElementById('chartSemana');
     if (ctxSemana && g.semanaLabels && g.semanaLabels.length > 0) {
-        new Chart(ctxSemana, {
+        chartSemanaInst = new Chart(ctxSemana, {
             type: 'line',
             data: {
                 labels: g.semanaLabels,
@@ -132,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function () {
     /* ===================== GRÁFICA 4: DONA — ESTATUS ===================== */
     var ctxEstatus = document.getElementById('chartEstatus');
     if (ctxEstatus && g.estatusLabels && g.estatusLabels.length > 0) {
-        new Chart(ctxEstatus, {
+        chartEstatusInst = new Chart(ctxEstatus, {
             type: 'doughnut',
             data: {
                 labels: g.estatusLabels,
@@ -164,6 +163,12 @@ document.addEventListener('DOMContentLoaded', function () {
         buildLegend('legendEstatus', g.estatusLabels, g.estatusData, g.estatusColores);
     }
 
+    /* ===================== MENSAJES DE VACÍO ===================== */
+    if (!g.inmuebleLabels || g.inmuebleLabels.length === 0) mostrarVacio('chartInmueble');
+    if (!g.capLabels      || g.capLabels.length === 0)      mostrarVacio('chartCapacitacion');
+    if (!g.semanaLabels   || g.semanaLabels.length === 0)   mostrarVacio('chartSemana');
+    if (!g.estatusLabels  || g.estatusLabels.length === 0)  mostrarVacio('chartEstatus');
+
     /* ===================== TABLA PRÓXIMAS ===================== */
     var tabla = document.getElementById('tablaProximas');
     if (tabla) {
@@ -172,8 +177,8 @@ document.addEventListener('DOMContentLoaded', function () {
         } else {
             proximas.forEach(function(cap) {
                 var fecha = cap.fecha || '—';
-                var hi = cap.horaInicio ? cap.horaInicio.substring(0,5) : '—';
-                var hf = cap.horaFin   ? cap.horaFin.substring(0,5)   : '—';
+                var hi  = cap.horaInicio ? cap.horaInicio.substring(0,5) : '—';
+                var hf  = cap.horaFin   ? cap.horaFin.substring(0,5)   : '—';
                 var sol = cap.nombreSolicitante || '—';
                 var tipo = (cap.tipoCapacitacion && cap.tipoCapacitacion.nombre) ? cap.tipoCapacitacion.nombre : '—';
                 var inst = (cap.instructor && cap.instructor.nombre) ? cap.instructor.nombre : 'Sin asignar';
@@ -187,6 +192,19 @@ document.addEventListener('DOMContentLoaded', function () {
                     '</tr>';
             });
         }
+    }
+
+    /* ===================== RESIZE AL TOGGLE SIDEBAR ===================== */
+    var btnSidebar = document.getElementById('btnSidebar');
+    if (btnSidebar) {
+        btnSidebar.addEventListener('click', function () {
+            setTimeout(function () {
+                if (chartInmuebleInst) chartInmuebleInst.resize();
+                if (chartCapInst)      chartCapInst.resize();
+                if (chartSemanaInst)   chartSemanaInst.resize();
+                if (chartEstatusInst)  chartEstatusInst.resize();
+            }, 320);
+        });
     }
 
 });
