@@ -60,6 +60,8 @@
     border: 1px solid var(--pc-borde); border-radius: 6px; padding: 7px 14px;
     text-decoration: none; transition: background 0.15s;
 }
+.db-btn-pdf { display: flex; align-items: center; gap: 7px; font-size: 13px; font-weight: 700; background: var(--pc-dorado-oscuro); color: #fff; border: none; border-radius: 6px; padding: 9px 20px; cursor: pointer; transition: all .25s ease;}
+.db-btn-pdf:hover {  transform: translateY(-3px); }
 .db-btn-limpiar:hover { background: var(--pc-fondo); }
 .db-btn-filtrar {
     display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 700;
@@ -93,7 +95,8 @@
 .db-card-head h2 { font-size: 13px; font-weight: 700; color: var(--pc-texto); margin: 0; }
 .db-card-head-row { display: flex; align-items: center; justify-content: space-between; }
 .db-card-body { padding: 16px; }
-.db-chart-body { display: flex; align-items: center; justify-content: center; min-height: 160px; }
+.db-chart-body { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; padding: 16px; min-height: 0; }
+.db-card-body canvas { width: 100% !important; }
 .db-link { font-size: 12px; color: #185FA5; text-decoration: none; font-weight: 600; }
 .db-link:hover { text-decoration: underline; }
 
@@ -110,8 +113,8 @@
 }
 
 /* Chart wrap con leyenda */
-.db-chart-wrap { display: flex; align-items: center; gap: 16px; }
-.db-chart-wrap canvas { flex-shrink: 0; max-width: 160px; }
+.db-chart-wrap { display: flex; align-items: center; gap: 16px; width: 100%; padding: 16px; }
+.db-chart-wrap canvas { flex-shrink: 0;  width: 140px !important; height: 140px !important;max-width: 140px; }
 .db-chart-legend { display: flex; flex-direction: column; gap: 6px; flex: 1; }
 .db-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--pc-texto); }
 .db-legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }

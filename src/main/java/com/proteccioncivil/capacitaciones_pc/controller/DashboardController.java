@@ -7,12 +7,17 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.proteccioncivil.capacitaciones_pc.entity.Capacitacion;
 import com.proteccioncivil.capacitaciones_pc.repository.*;
 import com.proteccioncivil.capacitaciones_pc.dto.DashboardFiltroDTO;
+import com.proteccioncivil.capacitaciones_pc.service.DashboardPdfService;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.thymeleaf.context.Context;
 
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
@@ -28,24 +33,50 @@ public class DashboardController {
     private final TipoCapacitacionRepository tipoCapacitacionRepository;
     private final EstatusRepository estatusRepository;
     private final InstructorRepository instructorRepository;
+    private final DashboardPdfService dashboardPdfService;
 
     public DashboardController(CapacitacionRepository capacitacionRepository,
                                TipoInmuebleRepository tipoInmuebleRepository,
                                TipoCapacitacionRepository tipoCapacitacionRepository,
                                EstatusRepository estatusRepository,
-                               InstructorRepository instructorRepository) {
+                               InstructorRepository instructorRepository,
+                               DashboardPdfService dashboardPdfService) {
         this.capacitacionRepository     = capacitacionRepository;
         this.tipoInmuebleRepository     = tipoInmuebleRepository;
         this.tipoCapacitacionRepository = tipoCapacitacionRepository;
         this.estatusRepository          = estatusRepository;
         this.instructorRepository       = instructorRepository;
+        this.dashboardPdfService        = dashboardPdfService;
     }
 
     @GetMapping
     public String dashboard(@ModelAttribute DashboardFiltroDTO filtro, Model model)
             throws JsonProcessingException {
+        cargarDashboard(model, filtro);
+        return "dashboard";
+    }
 
-        // --- Defaults de fecha: mes actual ---
+    @GetMapping("/dashboard/pdf")
+    public ResponseEntity<byte[]> descargarPdf(@ModelAttribute DashboardFiltroDTO filtro,
+                                               Model model) throws Exception {
+        cargarDashboard(model, filtro);
+
+        Context context = new Context();
+        context.setVariables(model.asMap());
+
+        byte[] pdf = dashboardPdfService.generarReporte(context);
+
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=ReporteDashboard.pdf")
+                .contentType(MediaType.APPLICATION_PDF)
+                .body(pdf);
+    }
+
+
+    // --- metodo cargar dashboard ---
+    private void cargarDashboard(Model model, DashboardFiltroDTO filtro)
+        throws  JsonProcessingException {
         if (filtro.getFechaInicio() == null) {
             filtro.setFechaInicio(LocalDate.now().withDayOfMonth(1));
         }
@@ -209,6 +240,27 @@ public class DashboardController {
         model.addAttribute("instructores",      instructorRepository.findByActivoTrue());
 
         model.addAttribute("paginaActiva", "dashboard");
-        return "dashboard";
+
+        model.addAttribute("capacitaciones", filtradas);
+
+        model.addAttribute("capLabels", capLabels);
+        model.addAttribute("capData", capData);
+
+        model.addAttribute("inmuebleLabels", inmuebleLabels);
+        model.addAttribute("inmuebleData", inmuebleData);
+
+        model.addAttribute("estatusLabels", estatusLabels);
+        model.addAttribute("estatusData", estatusData);
+
+        long maxCap = capData.stream()
+                .mapToLong(Long::longValue)
+                .max()
+                .orElse(1);
+        model.addAttribute("maxCap", maxCap);
+
+        model.addAttribute("resumenInmueble", porInmueble);
+        model.addAttribute("resumenEstatus", porEstatus);
+        model.addAttribute("coloresInmueble", coloresInmueble);
+        model.addAttribute("coloresEstatus", coloresEstatus);
     }
 }

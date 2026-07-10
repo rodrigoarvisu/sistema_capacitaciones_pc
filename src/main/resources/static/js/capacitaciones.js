@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             if (typeof Notyf !== 'undefined') {
                 var notyfLimpiar = new Notyf();
-                notyfLimpiar.success('Se limpiaron todos los campos');
+                notyfLimpiar.success('Se limpiaron todos los campos.');
             }
         });
     }

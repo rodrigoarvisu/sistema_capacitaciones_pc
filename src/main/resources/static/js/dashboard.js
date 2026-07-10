@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 cutout: '65%',
                 plugins: {
                     legend: { display: false },
@@ -144,7 +144,7 @@ document.addEventListener('DOMContentLoaded', function () {
             },
             options: {
                 responsive: true,
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 cutout: '65%',
                 plugins: {
                     legend: { display: false },
@@ -206,5 +206,35 @@ document.addEventListener('DOMContentLoaded', function () {
             }, 320);
         });
     }
+
+    var notyf = (typeof Notyf !== 'undefined')
+    ? new Notyf({
+        duration: 2500,
+        position: { x: 'right', y: 'top' }
+    })
+    : null;
+
+    if (notyf) {
+    var mensajePendiente = sessionStorage.getItem('notyfMensaje');
+
+    if (mensajePendiente) {
+        notyf.success(mensajePendiente);
+        sessionStorage.removeItem('notyfMensaje');
+    }
+
+    var formFiltros = document.querySelector('.db-filtros');
+    if (formFiltros) {
+        formFiltros.addEventListener('submit', function () {
+            sessionStorage.setItem('notyfMensaje', 'Filtros aplicados correctamente.');
+        });
+    }
+
+    var btnLimpiar = document.querySelector('.db-btn-limpiar');
+    if (btnLimpiar) {
+        btnLimpiar.addEventListener('click', function () {
+            sessionStorage.setItem('notyfMensaje', 'Se limpiaron todos los campos.');
+        });
+    }
+}
 
 });
