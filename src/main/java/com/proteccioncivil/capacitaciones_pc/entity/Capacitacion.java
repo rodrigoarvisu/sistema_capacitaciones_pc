@@ -37,6 +37,9 @@ public class Capacitacion {
     @Column(length = 40)
     private String telefono;
 
+    @Column(length = 1000)
+    private String observaciones;
+
     @Column(nullable = false, updatable = false)
     private LocalDateTime fechaRegistro;
 

@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Reporte de Capacitaciones</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 28px 32px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+            color: #111827;
+            background: #fff;
+        }
+
+        .rpt-page {
+            width: 100%;
+        }
+
+        .rpt-header {
+            display: table;
+            width: 100%;
+            margin-bottom: 18px;
+        }
+
+        .rpt-logo-cell {
+            display: table-cell;
+            width: 138px;
+            vertical-align: top;
+        }
+
+        .rpt-logo {
+            display: block;
+            width: 118px;
+            height: auto;
+            max-height: 118px;
+        }
+
+        .rpt-header-info {
+            display: table-cell;
+            vertical-align: top;
+            padding-top: 4px;
+        }
+
+        .rpt-header-info h1 {
+            color: #8b0000;
+            font-size: 30px;
+            line-height: 1.08;
+            font-weight: 700;
+            margin-bottom: 7px;
+        }
+
+        .subtitulo {
+            color: #333;
+            font-size: 15px;
+            line-height: 1.25;
+            max-width: 520px;
+            margin-bottom: 14px;
+        }
+
+        .rpt-datos {
+            color: #222;
+            font-size: 13px;
+            line-height: 1.75;
+        }
+
+        .rpt-icon {
+            color: #8b0000;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-block;
+            width: 18px;
+        }
+
+        .linea {
+            border: none;
+            height: 4px;
+            background: #8b0000;
+            margin: 0 0 22px;
+        }
+
+        .rpt-filtros {
+            border: 1px solid #d7d7d7;
+            border-radius: 5px;
+            padding: 12px 13px;
+            margin-bottom: 21px;
+            min-height: 76px;
+        }
+
+        .rpt-filtros-titulo {
+            font-size: 16px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 12px;
+        }
+
+        .rpt-filtros-grid {
+            line-height: 1.55;
+        }
+
+        .rpt-filtro-item {
+            display: block;
+            font-size: 12px;
+        }
+
+        .rpt-filtro-item span:first-child {
+            color: #555;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-right: 6px;
+        }
+
+        .rpt-section-title {
+            font-size: 17px;
+            font-weight: 700;
+            color: #8b0000;
+            margin: 0 0 13px;
+        }
+
+        .rpt-kpis {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-spacing: 0;
+            margin-bottom: 24px;
+        }
+
+        .rpt-kpi-slot {
+            display: table-cell;
+            vertical-align: top;
+            padding-right: 20px;
+        }
+
+        .rpt-kpi-slot:last-child {
+            padding-right: 0;
+        }
+
+        .rpt-kpi,
+        .rpt-ben-card,
+        .rpt-dist-col {
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            background: #fff;
+        }
+
+        .rpt-kpi {
+            height: auto;
+            padding: 15px 8px 10px;
+            text-align: center;
+            border-top-width: 4px;
+        }
+
+        .rpt-kpi-label,
+        .rpt-ben-label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #4b5563;
+            margin-bottom: 8px;
+        }
+
+        .rpt-kpi-valor,
+        .rpt-ben-valor,
+        .rpt-ben-total-valor {
+            display: block;
+            font-size: 26px;
+            line-height: 1;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 8px;
+        }
+
+        .rpt-kpi-sub {
+            display: block;
+            color: #333;
+            font-size: 12px;
+        }
+
+        .rpt-kpi-total { border-top-color: #2563eb; }
+        .rpt-kpi-realizadas { border-top-color: #16a34a; }
+        .rpt-kpi-programadas { border-top-color: #f2b705; }
+        .rpt-kpi-canceladas { border-top-color: #dc2626; }
+        .rpt-kpi-horas { border-top-color: #6b217d; }
+
+        .rpt-beneficiarios {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-spacing: 0;
+            margin-bottom: 25px;
+        }
+
+        .rpt-ben-slot {
+            display: table-cell;
+            vertical-align: top;
+            padding-right: 24px;
+        }
+
+        .rpt-ben-slot-small {
+            width: 22%;
+        }
+
+        .rpt-ben-slot-total {
+            width: 36%;
+            padding-right: 0;
+        }
+
+        .rpt-ben-card {
+            height: auto;
+            text-align: center;
+            padding: 15px 8px 10px;
+        }
+
+        .rpt-ben-total {
+            background: #f3f3f3;
+        }
+
+        .rpt-dist-grid {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            border-spacing: 0;
+            margin-bottom: 20px;
+        }
+
+        .rpt-dist-slot {
+            display: table-cell;
+            width: 50%;
+            vertical-align: top;
+            padding-right: 18px;
+        }
+
+        .rpt-dist-slot:last-child {
+            padding-right: 0;
+            padding-left: 8px;
+        }
+
+        .rpt-dist-col {
+            min-height: 130px;
+            padding: 12px 14px;
+        }
+
+        .rpt-dist-heading {
+            font-size: 12px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 12px;
+        }
+
+        .rpt-dist-row {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            margin-bottom: 9px;
+            font-size: 12px;
+        }
+
+        .rpt-dist-name {
+            display: table-cell;
+            vertical-align: middle;
+        }
+
+        .rpt-dist-value {
+            display: table-cell;
+            width: 86px;
+            text-align: right;
+            vertical-align: middle;
+            white-space: nowrap;
+        }
+
+        .rpt-dist-dot {
+            display: inline-block;
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+            margin-right: 8px;
+            vertical-align: -1px;
+        }
+
+        .rpt-dist-count {
+            font-weight: 700;
+        }
+
+        .rpt-bars {
+            margin-bottom: 25px;
+        }
+
+        .rpt-barra-row {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            margin-bottom: 10px;
+        }
+
+        .rpt-barra-label {
+            display: table-cell;
+            width: 185px;
+            font-size: 13px;
+            color: #111;
+            vertical-align: middle;
+        }
+
+        .rpt-barra-wrap {
+            display: table-cell;
+            height: 8px;
+            background: #f1f1f1;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+
+        .rpt-barra-fill {
+            display: block;
+            height: 8px;
+            background: #8b0000;
+            border-radius: 4px;
+        }
+
+        .rpt-barra-count {
+            display: table-cell;
+            width: 38px;
+            text-align: right;
+            font-size: 12px;
+            color: #111;
+            vertical-align: middle;
+        }
+
+        .rpt-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 27px;
+            font-size: 10px;
+            border: 1px solid #d9d9d9;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .rpt-table th {
+            background: #f2f2f2;
+            color: #111;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 8px 7px;
+            text-align: center;
+            border-right: 1px solid #d9d9d9;
+            border-bottom: 1px solid #d9d9d9;
+        }
+
+        .rpt-table th:last-child,
+        .rpt-table td:last-child {
+            border-right: none;
+        }
+
+        .rpt-table td {
+            padding: 8px 7px;
+            border-right: 1px solid #e2e2e2;
+            border-bottom: 1px solid #e2e2e2;
+            color: #111;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .rpt-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .rpt-table td:nth-child(3),
+        .rpt-table td:nth-child(4) {
+            text-align: left;
+        }
+
+        .rpt-footer {
+            display: table;
+            width: 100%;
+            border-top: 1px solid #8b0000;
+            padding-top: 13px;
+            font-size: 11px;
+            color: #444;
+        }
+
+        .rpt-footer span {
+            display: table-cell;
+            width: 33.33%;
+        }
+
+        .rpt-footer span:nth-child(2) {
+            text-align: center;
+        }
+
+        .rpt-footer span:nth-child(3) {
+            text-align: right;
+        }
+       .page-break {
+        page-break-before: always;
+       }
+    </style>
+</head>
+<body>
+<div class="rpt-page">
+
+    <div class="rpt-header">
+        <div class="rpt-logo-cell">
+            <img src="img/logo-pc.png" class="rpt-logo" alt="Logo"/>
+        </div>
+
+        <div class="rpt-header-info">
+            <h1>Reporte de Capacitaciones</h1>
+            <p class="subtitulo">
+                Sistema de Gestión de Capacitaciones - Coordinación de
+                Capacitación, Vinculación y Difusión.
+            </p>
+
+            <div class="rpt-datos">
+                <div>
+                    <span class="rpt-icon"></span>
+                    <span>Fecha de generación: </span>
+                    <span th:text="${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}">10/07/2026 15:02</span>
+                </div>
+                <div>
+                    <span class="rpt-icon"></span>
+                    <span>Periodo: </span>
+                    <span th:text="${#temporals.format(filtro.fechaInicio, 'dd/MM/yyyy')}">01/07/2026</span>
+                    <span> al </span>
+                    <span th:text="${#temporals.format(filtro.fechaFin, 'dd/MM/yyyy')}">10/07/2026</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr class="linea"/>
+
+    <div class="rpt-filtros">
+        <div class="rpt-filtros-titulo">Filtros aplicados</div>
+        <div class="rpt-filtros-grid">
+            <div class="rpt-filtro-item">
+                <span>Periodo:</span>
+                <span th:text="${#temporals.format(filtro.fechaInicio, 'dd/MM/yyyy') + ' al ' + #temporals.format(filtro.fechaFin, 'dd/MM/yyyy')}">01/07/2026 al 10/07/2026</span>
+            </div>
+            <div class="rpt-filtro-item" th:if="${filtro.tipoInmuebleId != null}">
+                <span>Tipo de inmueble:</span>
+                <span th:each="t : ${tiposInmueble}" th:if="${t.id == filtro.tipoInmuebleId}" th:text="${t.nombre}">Escuelas</span>
+            </div>
+            <div class="rpt-filtro-item" th:if="${filtro.tipoCapacitacionId != null}">
+                <span>Tipo de capacitación:</span>
+                <span th:each="t : ${tiposCapacitacion}" th:if="${t.id == filtro.tipoCapacitacionId}" th:text="${t.nombre}">Primeros Auxilios</span>
+            </div>
+            <div class="rpt-filtro-item" th:if="${filtro.estatusId != null}">
+                <span>Estatus:</span>
+                <span th:each="e : ${estatusLista}" th:if="${e.id == filtro.estatusId}" th:text="${e.nombre}">Realizada</span>
+            </div>
+            <div class="rpt-filtro-item" th:if="${filtro.instructorId != null}">
+                <span>Instructor:</span>
+                <span th:each="i : ${instructores}" th:if="${i.id == filtro.instructorId}" th:text="${i.nombre}">Ana López</span>
+            </div>
+            <div class="rpt-filtro-item" th:if="${filtro.tipoInmuebleId == null and filtro.tipoCapacitacionId == null and filtro.estatusId == null and filtro.instructorId == null}">
+                <span>Todos los registros del periodo</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="rpt-section-title">Resumen del periodo</div>
+    <div class="rpt-kpis">
+        <div class="rpt-kpi-slot">
+            <div class="rpt-kpi rpt-kpi-total">
+                <span class="rpt-kpi-label">Total</span>
+                <span class="rpt-kpi-valor" th:text="${total}">10</span>
+                <span class="rpt-kpi-sub">capacitaciones</span>
+            </div>
+        </div>
+        <div class="rpt-kpi-slot">
+            <div class="rpt-kpi rpt-kpi-realizadas">
+                <span class="rpt-kpi-label">Realizadas</span>
+                <span class="rpt-kpi-valor" th:text="${realizadas}">7</span>
+                <span class="rpt-kpi-sub" th:text="${total > 0 ? #numbers.formatDecimal(realizadas * 100.0 / total, 1, 1) + '%' : '0%'}">70.0%</span>
+            </div>
+        </div>
+        <div class="rpt-kpi-slot">
+            <div class="rpt-kpi rpt-kpi-programadas">
+                <span class="rpt-kpi-label">Programadas</span>
+                <span class="rpt-kpi-valor" th:text="${programadas}">1</span>
+                <span class="rpt-kpi-sub">pendientes</span>
+            </div>
+        </div>
+        <div class="rpt-kpi-slot">
+            <div class="rpt-kpi rpt-kpi-canceladas">
+                <span class="rpt-kpi-label">Canceladas</span>
+                <span class="rpt-kpi-valor" th:text="${canceladas}">2</span>
+                <span class="rpt-kpi-sub" th:text="${total > 0 ? #numbers.formatDecimal(canceladas * 100.0 / total, 1, 1) + '%' : '0%'}">20.0%</span>
+            </div>
+        </div>
+        <div class="rpt-kpi-slot">
+            <div class="rpt-kpi rpt-kpi-horas">
+                <span class="rpt-kpi-label">Horas impartidas</span>
+                <span class="rpt-kpi-valor" th:text="${horas}">12</span>
+                <span class="rpt-kpi-sub">horas totales</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="rpt-section-title">Beneficiados en el periodo</div>
+    <div class="rpt-beneficiarios">
+        <div class="rpt-ben-slot rpt-ben-slot-small">
+            <div class="rpt-ben-card">
+                <span class="rpt-ben-label">Hombres</span>
+                <span class="rpt-ben-valor" th:text="${totalHombres}">5</span>
+            </div>
+        </div>
+        <div class="rpt-ben-slot rpt-ben-slot-small">
+            <div class="rpt-ben-card">
+                <span class="rpt-ben-label">Mujeres</span>
+                <span class="rpt-ben-valor" th:text="${totalMujeres}">3</span>
+            </div>
+        </div>
+        <div class="rpt-ben-slot rpt-ben-slot-small">
+            <div class="rpt-ben-card">
+                <span class="rpt-ben-label">Niños</span>
+                <span class="rpt-ben-valor" th:text="${totalNinos}">2</span>
+            </div>
+        </div>
+        <div class="rpt-ben-slot rpt-ben-slot-total">
+            <div class="rpt-ben-card rpt-ben-total">
+                <span class="rpt-ben-label">Total de beneficiados</span>
+                <span class="rpt-ben-valor" th:text="${totalBeneficiarios}">10</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="rpt-section-title">Distribución por tipo de inmueble y estatus</div>
+    <div class="rpt-dist-grid">
+        <div class="rpt-dist-slot">
+            <div class="rpt-dist-col">
+                <div class="rpt-dist-heading">Por tipo de inmueble</div>
+                <div class="rpt-dist-row" th:each="item : ${resumenInmueble}">
+                    <span class="rpt-dist-name">
+                        <span class="rpt-dist-dot" th:style="'background:' + ${coloresInmueble[item.key]}"></span>
+                        <span th:text="${item.key}">Escuelas</span>
+                    </span>
+                    <span class="rpt-dist-value">
+                        <span class="rpt-dist-count" th:text="${item.value}">4</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="rpt-dist-slot">
+            <div class="rpt-dist-col">
+                <div class="rpt-dist-heading">Por estatus</div>
+                <div class="rpt-dist-row" th:each="item : ${resumenEstatus}">
+                    <span class="rpt-dist-name">
+                        <span class="rpt-dist-dot" th:style="'background:' + ${coloresEstatus[item.key]}"></span>
+                        <span th:text="${item.key}">Realizadas</span>
+                    </span>
+                    <span class="rpt-dist-value">
+                        <span class="rpt-dist-count" th:text="${item.value}">7</span>
+                        <span th:text="${total > 0 ? '(' + #numbers.formatDecimal(item.value * 100.0 / total,1,1) + '%)' : '(0%)'}">(70.0%)</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rpt-section-title">Capacitaciones por tipo</div>
+    <div class="rpt-bars">
+        <th:block th:if="${!#lists.isEmpty(capLabels)}">
+            <th:block th:each="i : ${#numbers.sequence(0,#lists.size(capLabels)-1)}">
+                <div class="rpt-barra-row">
+                    <span class="rpt-barra-label" th:text="${capLabels[i]}">Primeros Auxilios</span>
+                    <span class="rpt-barra-wrap">
+                        <span class="rpt-barra-fill" th:style="'width:' + ${(capData[i] * 100) / maxCap} + '%'"></span>
+                    </span>
+                    <span class="rpt-barra-count" th:text="${capData[i]}">4</span>
+                </div>
+            </th:block>
+        </th:block>
+        <p th:if="${#lists.isEmpty(capLabels)}" style="color:#777;font-size:12px">Sin datos en el periodo.</p>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="rpt-section-title">Listado completo de capacitaciones</div>
+    <table class="rpt-table">
+        <thead>
+            <tr>
+                <th>Fecha</th>
+                <th>Horario</th>
+                <th>Solicitante</th>
+                <th>Tipo capacitación</th>
+                <th>Tipo inmueble</th>
+                <th>Instructor</th>
+                <th>PC</th>
+                <th>OP</th>
+                <th>Estatus</th>
+                <th>Ben.</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="cap : ${capacitaciones}">
+                <td th:text="${#temporals.format(cap.fecha, 'dd/MM/yy')}">01/07/26</td>
+                <td>
+                    <span th:text="${cap.horaInicio != null ? #strings.substring(cap.horaInicio.toString(),0,5) : '--'}">10:00</span>
+                    -
+                    <span th:text="${cap.horaFin != null ? #strings.substring(cap.horaFin.toString(),0,5) : '--'}">12:00</span>
+                </td>
+                <td th:text="${cap.nombreSolicitante}">Esc. Prim. Benito Juárez</td>
+                <td th:text="${cap.tipoCapacitacion.nombre}">Primeros Auxilios</td>
+                <td th:text="${cap.tipoInmueble.nombre}">Escuelas</td>
+                <td th:text="${cap.instructor != null ? cap.instructor.nombre : 'Sin asignar'}">Ana López</td>
+                <td th:text="${cap.pc}">PC-001</td>
+                <td th:text="${cap.op}">OP-001</td>
+                <td th:text="${cap.estatus.nombre}">Realizada</td>
+                <td th:text="${(cap.hombres != null ? cap.hombres : 0) + (cap.mujeres != null ? cap.mujeres : 0) + (cap.ninos != null ? cap.ninos : 0)}">25</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(capacitaciones)}">
+                <td colspan="10" style="text-align:center;color:#777;padding:18px">Sin registros en el periodo.</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="rpt-footer">
+        <span>Sistema de Gestión de Capacitaciones - Protección Civil</span>
+        <span th:text="'Generado el ' + ${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}">Generado el 10/07/2026 15:02</span>
+        <span>1 / 1</span>
+    </div>
+</div>
+</body>
+</html>

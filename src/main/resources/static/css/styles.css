@@ -87,7 +87,7 @@ body{
     color:white;
     text-decoration:none;
 
-    border-radius:30px;
+    border-radius:28px;
     border-left: 3px solid transparent;
 
     transition:all .25s ease;
@@ -104,8 +104,8 @@ body{
 
 /* ESTADO ACTIVO */
 .menu-item.active{
-    background: rgba(255,255,255,.16);
-    border: 2px solid var(--pc-borde);
+    background: rgba(227, 232, 141, 0.21);
+    border: 1px solid var(--pc-dorado-suave);
     font-weight: 600;
 }
 

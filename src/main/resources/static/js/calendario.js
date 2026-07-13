@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
               tipoKey: obtenerTipoKey(c.tipoInmueble.nombre),   // "escuela","empresa","gobierno","unidad"
               fecha: c.fecha,        // "2026-06-29" (LocalDate → string ISO)
               horaInicio: c.horaInicio.substring(0, 5),  // "10:30"
-              horaFin: c.horaFin.substring(0, 5),        // "12:30"
+              horaFin: c.horaFin ? c.horaFin.substring(0, 5): "",      // "12:30"
               direccion: c.direccion,
               estatus: c.estatus.nombre
           };
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
             celda.appendChild(numSpan);
 
             var evs = eventosEnFecha(dStr);
-            var max = 2;
+            var max = 5;
             evs.slice(0, max).forEach(function (ev) {
                 var span = document.createElement('span');
                 span.className = 'cal-mes-evento ' + claseEventoMes(ev.tipoKey);
