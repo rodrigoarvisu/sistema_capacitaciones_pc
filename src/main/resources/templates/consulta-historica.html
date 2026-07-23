@@ -182,7 +182,13 @@
                     <tbody>
                         <tr th:each="cap : ${capacitaciones}">
                             <td th:text="${#temporals.format(cap.fecha, 'dd/MM/yyyy')}">—</td>
-                            <td th:text="${#strings.substring(cap.horaInicio.toString(),0,5)} + ' - ' + ${#strings.substring(cap.horaFin.toString(),0,5)}">—</td>
+                            <td th:text="${
+    (cap.horaInicio != null ? #temporals.format(cap.horaInicio, 'HH:mm') : '-') +
+    ' - ' +
+    (cap.horaFin != null ? #temporals.format(cap.horaFin, 'HH:mm') : '-')
+}">
+    —
+</td>
                             <td>
                                 <span th:text="${cap.nombreSolicitante}" style="font-weight:600">—</span>
                                 <span class="ch-table-sub" th:text="${cap.direccion}">—</span>

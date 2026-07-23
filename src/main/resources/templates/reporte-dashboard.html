@@ -596,8 +596,6 @@
                 <th>Tipo capacitación</th>
                 <th>Tipo inmueble</th>
                 <th>Instructor</th>
-                <th>PC</th>
-                <th>OP</th>
                 <th>Estatus</th>
                 <th>Ben.</th>
             </tr>
@@ -614,8 +612,6 @@
                 <td th:text="${cap.tipoCapacitacion.nombre}">Primeros Auxilios</td>
                 <td th:text="${cap.tipoInmueble.nombre}">Escuelas</td>
                 <td th:text="${cap.instructor != null ? cap.instructor.nombre : 'Sin asignar'}">Ana López</td>
-                <td th:text="${cap.pc}">PC-001</td>
-                <td th:text="${cap.op}">OP-001</td>
                 <td th:text="${cap.estatus.nombre}">Realizada</td>
                 <td th:text="${(cap.hombres != null ? cap.hombres : 0) + (cap.mujeres != null ? cap.mujeres : 0) + (cap.ninos != null ? cap.ninos : 0)}">25</td>
             </tr>

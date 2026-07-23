@@ -23,6 +23,8 @@
             <i class="ti ti-chevron-right"></i>
             <span>Nueva capacitación</span>
         </nav>
+
+        
           
         <!-- Page header -->
         <div class="fc-page-header">
@@ -35,7 +37,6 @@
                     <p>Registrar, editar y administrar las capacitaciones.</p>
                 </div>
             </div>
-            
             
            <button type="button" class="btn-primary-pc fc-btn-submit"
              th:onclick="|window.location.href='@{/calendario}'|">
@@ -374,6 +375,20 @@
                     </div>
                     <div class="fc-aside-body">
                         <div class="fc-summary-row">
+                            <i class="ti ti-id-badge" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">PC</span>
+                                <span class="fc-summary-val" id="resumen-pc">—</span>
+                            </div>
+                        </div>
+                        <div class="fc-summary-row">
+                            <i class="ti ti-building" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">OP</span>
+                                <span class="fc-summary-val" id="resumen-op">—</span>
+                            </div>
+                        </div>
+                        <div class="fc-summary-row">
                             <i class="ti ti-building-skyscraper" aria-hidden="true"></i>
                             <div>
                                 <span class="fc-summary-key">Solicitante</span>
@@ -415,11 +430,32 @@
                                 <span class="fc-summary-val" id="resumen-instructores">—</span>
                             </div>
                         </div>
+                         <div class="fc-summary-row">
+                            <i class="ti ti-user-circle" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Nombre del contacto</span>
+                                <span class="fc-summary-val" id="resumen-contacto">—</span>
+                            </div>
+                        </div>
+                        <div class="fc-summary-row">
+                            <i class="ti ti-phone" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Teléfono del contacto</span>
+                                <span class="fc-summary-val" id="resumen-telefono">—</span>
+                            </div>
+                        </div>
                         <div class="fc-summary-row">
                             <i class="ti ti-flag" aria-hidden="true"></i>
                             <div>
                                 <span class="fc-summary-key">Estatus</span>
                                 <span class="fc-summary-val" id="resumen-estatus">—</span>
+                            </div>
+                        </div>
+                        <div class="fc-summary-row">
+                            <i class="ti ti-man" aria-hidden="true"></i>
+                            <div>
+                                <span class="fc-summary-key">Total de beneficiarios</span>
+                                <span class="fc-summary-val" id="resumen-beneficiarios">—</span>
                             </div>
                         </div>
                     </div>

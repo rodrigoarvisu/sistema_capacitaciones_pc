@@ -34,12 +34,17 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function update() {
+        set('resumen-pc', val('pc'));
+        set('resumen-op', val('op'));
         set('resumen-solicitante', val('nombreSolicitante'));
         set('resumen-inmueble',    selectText('tipoInmueble'));
         set('resumen-tipo',        selectText('tipoCapacitacion'));
         set('resumen-fecha',       formatFecha(val('fecha')));
         set('resumen-instructores', selectText('instructor'));
+        set('resumen-contacto', val('contacto'));
+        set('resumen-telefono', val('telefono'));
         set('resumen-estatus',     selectText('estatus'));
+        set('resumen-beneficiarios', actualizarTotalBeneficiarios());
 
         var hi = val('horaInicio');
         var hf = val('horaFin');
@@ -49,8 +54,9 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     // --- Resumen en vivo: escucha cambios en los campos ---
-    var ids = ['nombreSolicitante','tipoInmueble','tipoCapacitacion',
-               'fecha','horaInicio','horaFin', 'instructor', 'estatus'];
+    var ids = ['pc', 'op', 'nombreSolicitante','tipoInmueble','tipoCapacitacion',
+               'fecha','horaInicio','horaFin', 'instructor', 'contacto', 
+               'telefono', 'estatus', 'hombres', 'mujeres', 'ninos'];
 
     ids.forEach(function (id) {
         var el = document.getElementById(id);
@@ -81,8 +87,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const mujeres = parseInt(document.getElementById("mujeres").value) || 0;
     const ninos = parseInt(document.getElementById("ninos").value) || 0;
 
-    document.getElementById("totalBeneficiarios").textContent =
-        hombres + mujeres + ninos;
+    const total = hombres + mujeres + ninos;
+
+    document.getElementById("totalBeneficiarios").textContent = total;
+
+    return total;
 }
 
 ["hombres","mujeres","ninos"].forEach(id => {
