@@ -321,6 +321,13 @@
     margin: 0;
 }
 
+    .fc-page-header-right{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:15px;
+  }
+
 /* ---- Responsive ---- */
 @media (max-width: 960px) {
     .fc-layout {

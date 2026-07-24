@@ -1,8 +1,11 @@
 /* consulta-historica.css — depende de styles.css */
 
 .ch-page-header {
-    display: flex; align-items: center;
-    margin-bottom: 20px;
+     display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    margin-bottom:14px;
+    gap:12px;
 }
 .ch-page-header-left { display: flex; align-items: center; gap: 14px; }
 .ch-page-header-icon {
@@ -201,6 +204,12 @@
 .ch-page-num:hover { background: var(--pc-fondo); }
 .ch-page-num.active { background: var(--pc-rojo); color: #fff; border-color: var(--pc-rojo); }
 
+.ch-page-header-right{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:15px;
+  }
 /* Responsive */
 @media (max-width: 1100px) {
     .ch-filtros-grid { grid-template-columns: repeat(2, 1fr); }

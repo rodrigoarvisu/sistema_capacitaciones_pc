@@ -192,7 +192,7 @@ body.sidebar-hidden .contenido{
     gap: 12px;
 
     background: #fff;
-    border: 1px solid var(--pc-borde);
+    border: 1px solid var(--pc-dorado-suave);
     border-radius: 12px;
 
     padding: 10px 14px;
@@ -230,7 +230,7 @@ body.sidebar-hidden .contenido{
     right:0;
     width:260px;
     background:white;
-    border:1px solid var(--pc-borde);
+    border:1px solid var(--pc-dorado-suave);
     border-radius:12px;
     box-shadow:0 12px 30px rgba(0,0,0,.12);
     display:none;

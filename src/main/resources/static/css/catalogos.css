@@ -1,10 +1,12 @@
 /* catalogos.css — depende de styles.css */
 
 .cat-page-header {
-    display: flex;
+   display: flex;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 12px;
 }
 .cat-page-header-left { display: flex; align-items: center; gap: 14px; }
 .cat-page-header-icon {
@@ -267,6 +269,13 @@
     padding: 9px 16px; cursor: pointer; transition: background 0.15s;
 }
 .cat-btn-outline:hover { background: var(--pc-fondo); }
+
+ .cat-page-header-right{
+    display:flex;
+    flex-direction:column;
+    align-items:flex-end;
+    gap:15px;
+  }
 
 /* Responsive */
 @media (max-width: 960px) {
