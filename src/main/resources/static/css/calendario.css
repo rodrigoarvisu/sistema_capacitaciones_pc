@@ -504,7 +504,7 @@
     background: var(--pc-panel);
     border-radius: 12px;
     width: 100%;
-    max-width: 460px;
+    max-width: 720px;
     box-shadow: 0 20px 50px rgba(0,0,0,0.25);
     animation: cal-modal-in 0.18s ease;
 }
@@ -552,14 +552,18 @@
 .cal-modal-close:hover { background: var(--pc-fondo); }
 .cal-modal-body {
     padding: 16px 20px;
-    display: flex;
+    display: grid;
     flex-direction: column;
-    gap: 12px;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 24px;
 }
 .cal-modal-row {
     display: flex;
     gap: 12px;
     align-items: flex-start;
+}
+.cal-modal-row-full {
+    grid-column: 1 / -1;
 }
 .cal-modal-row i {
     font-size: 16px;

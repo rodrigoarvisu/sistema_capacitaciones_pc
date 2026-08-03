@@ -5,17 +5,26 @@ document.addEventListener('DOMContentLoaded', function () {
        cuando conectes la BD. */
     var EVENTOS = JSON.parse(CAPACITACIONES).map(function(c) {
           return {
-              id: c.id,
-              solicitante: c.nombreSolicitante,
-              tipoCapacitacion: c.tipoCapacitacion.nombre,
-              tipoInmueble: c.tipoInmueble.nombre,
-              instructor: c.instructor ? c.instructor.nombre: "Sin asignar",
-              tipoKey: obtenerTipoKey(c.tipoInmueble.nombre),   // "escuela","empresa","gobierno","unidad"
-              fecha: c.fecha,        // "2026-06-29" (LocalDate → string ISO)
-              horaInicio: c.horaInicio.substring(0, 5),  // "10:30"
-              horaFin: c.horaFin ? c.horaFin.substring(0, 5): "",      // "12:30"
-              direccion: c.direccion,
-              estatus: c.estatus.nombre
+             id: c.id,
+          pc: c.pc,
+          op: c.op,
+          solicitante: c.nombreSolicitante,
+          tipoCapacitacion: c.tipoCapacitacion.nombre,
+          tipoInmueble: c.tipoInmueble.nombre,
+          instructor: c.instructor ? c.instructor.nombre : "Sin asignar",
+          tipoKey: obtenerTipoKey(c.tipoInmueble.nombre),
+          fecha: c.fecha,
+          horaInicio: c.horaInicio.substring(0, 5),
+          horaFin: c.horaFin ? c.horaFin.substring(0, 5) : "",
+          direccion: c.direccion,
+          estatus: c.estatus.nombre,
+          contacto: c.contacto,
+          telefono: c.telefono,
+          observaciones: c.observaciones,
+          hombres: c.hombres,
+          mujeres: c.mujeres,
+          ninos: c.ninos,
+          archivoLista: c.archivoLista
           };
       });
       
@@ -381,6 +390,24 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('modalTipoInmueble').textContent     = ev.tipoInmueble;
         document.getElementById('modalInstructor').textContent     = ev.instructor;
         document.getElementById('modalEstatus').textContent          = ev.estatus;
+        document.getElementById('modalPc').textContent = ev.pc || '—';
+        document.getElementById('modalOp').textContent = ev.op || '—';
+        document.getElementById('modalContacto').textContent = ev.contacto || '—';
+        document.getElementById('modalTelefono').textContent = ev.telefono || '—';
+        document.getElementById('modalObservaciones').textContent = ev.observaciones || '—';
+
+        var total = (ev.hombres || 0) + (ev.mujeres || 0) + (ev.ninos || 0);
+        document.getElementById('modalBeneficiarios').textContent =
+        (ev.hombres || 0) + ' hombres · ' + (ev.mujeres || 0) + ' mujeres · ' +
+        (ev.ninos || 0) + ' niños (Total: ' + total + ')';
+
+        var modalArchivo = document.getElementById('modalArchivo');
+         if (ev.archivoLista) {
+             modalArchivo.innerHTML = '<a href="/' + ev.archivoLista +
+             '" target="_blank" style="color:var(--pc-primario); text-decoration:underline;">Ver PDF</a>';
+        } else {
+             modalArchivo.textContent = 'Sin archivo adjunto';
+        }
 
         var dot = document.getElementById('modalDot');
         if (dot) dot.style.background = colorDot(ev);

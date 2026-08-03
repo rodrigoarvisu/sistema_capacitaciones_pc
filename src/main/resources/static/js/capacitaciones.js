@@ -144,3 +144,30 @@ if(userToggle){
     });
 
 }
+
+const inputArchivo = document.getElementById("archivoLista");
+const nombreArchivo = document.getElementById("nombreArchivo");
+
+if (inputArchivo) {
+    inputArchivo.addEventListener("change", function () {
+        if (this.files.length > 0) {
+            nombreArchivo.textContent = this.files[0].name;
+            nombreArchivo.classList.add("success");
+        } else {
+            nombreArchivo.textContent = "Ningún archivo seleccionado";
+            nombreArchivo.classList.remove("success");
+        }
+    });
+}
+
+const btnReemplazar = document.getElementById("btnReemplazar");
+const archivoExistente = document.getElementById("archivoExistente");
+const archivoNuevo = document.getElementById("archivoNuevo");
+
+if (btnReemplazar) {
+    btnReemplazar.addEventListener("click", function () {
+        archivoExistente.style.display = "none";
+        archivoNuevo.style.display = "block";
+        document.getElementById("archivoLista").click();
+    });
+}

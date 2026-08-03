@@ -99,7 +99,7 @@
 
              </form>
 
-         </div>
+        </div>
 
     </div>
             
@@ -119,6 +119,7 @@
                 <form th:action="@{/capacitaciones/guardar}"
                       th:object="${capacitacion}"
                       method="post"
+                      enctype="multipart/form-data"
                       class="fc-form">
 
                       <input type="hidden" th:field="*{id}">
@@ -408,6 +409,59 @@
         <strong id="totalBeneficiarios">0</strong>
         beneficiarios
     </div>
+</div>
+
+
+<div class="fc-section">
+
+    <div class="fc-section-head">
+        <i class="ti ti-file-type-pdf"></i>
+        <div>
+            <h2>Lista de asistencia</h2>
+            <span>Adjunta la evidencia en formato PDF</span>
+        </div>
+    </div>
+
+    <div class="fc-grid">
+        <div class="fc-field fc-field-full">
+
+            <label>Lista de asistencia</label>
+
+            <div class="fc-upload-box">
+
+    <!-- Estado: ya existe un archivo -->
+    <div id="archivoExistente" th:if="${capacitacion.archivoLista != null}">
+        <i class="ti ti-file-type-pdf fc-upload-icon"></i>
+        <p>Ya existe un archivo adjunto:</p>
+       <a th:href="@{|/${capacitacion.archivoLista}|}"
+   target="_blank"
+   class="fc-upload-name success"
+   th:text="${capacitacion.archivoLista.substring(capacitacion.archivoLista.lastIndexOf('/') + 1)}">
+    archivo.pdf
+</a>
+        <button type="button" id="btnReemplazar" class="fc-upload-btn">
+            <i class="ti ti-refresh"></i> Reemplazar archivo
+        </button>
+    </div>
+
+    <!-- Estado: sin archivo / seleccionar nuevo -->
+    <div id="archivoNuevo"
+         th:style="${capacitacion.archivoLista != null ? 'display:none' : ''}"
+         onclick="document.getElementById('archivoLista').click()">
+        <i class="ti ti-file-type-pdf fc-upload-icon"></i>
+        <p>Solo se permiten archivos PDF de hasta 10 MB.</p>
+        <input type="file" id="archivoLista" name="archivo" accept="application/pdf" hidden>
+        <button type="button" class="fc-upload-btn">
+            <i class="ti ti-upload"></i> Seleccionar archivo
+        </button>
+        <p id="nombreArchivo" class="fc-upload-name">Ningún archivo seleccionado</p>
+    </div>
+
+</div>
+
+        </div>
+    </div>
+
 </div>
 
                     <!-- Footer del formulario -->

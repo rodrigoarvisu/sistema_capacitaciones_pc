@@ -72,4 +72,8 @@ public class Capacitacion {
 
     @Column(nullable = false)
     private Integer ninos = 0;
+
+    @Column(name = "archivo_lista", length = 255)
+    private String archivoLista;
+
 }
