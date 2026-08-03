@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="userMenu">
+
+    <div class="db-user-menu">
+        <button class="db-user-toggle" id="userToggle">
+            <div class="db-user-avatar">
+                <i class="ti ti-user"></i>
+            </div>
+            <div class="db-user-info">
+                <span class="db-user-name" th:text="${usuarioActual != null ? usuarioActual.nombre : #authentication.name}">Usuario</span>
+                <span class="db-user-role">Usuario</span>
+            </div>
+            <i class="ti ti-chevron-down"></i>
+        </button>
+
+        <div class="db-user-dropdown" id="userDropdown">
+            <a href="#" id="btnAbrirPerfil">
+                <i class="ti ti-user"></i>
+                Mi perfil
+            </a>
+            <a href="#" id="btnAbrirPassword">
+                <i class="ti ti-lock"></i>
+                Cambiar contraseña
+            </a>
+            <hr>
+            <form th:action="@{/logout}" method="post">
+                <button type="submit" class="logout-btn">
+                    <i class="ti ti-logout"></i>
+                    Cerrar sesión
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============ MODAL: Mi perfil ============ -->
+    <div class="pc-modal-overlay" id="modalPerfil">
+        <div class="pc-modal">
+            <div class="pc-modal-head">
+                <h2><i class="ti ti-user"></i> Mi perfil</h2>
+                <button type="button" class="pc-modal-close" id="btnCerrarPerfil"><i class="ti ti-x"></i></button>
+            </div>
+            <form th:action="@{/perfil/actualizar}" method="post" class="pc-modal-body">
+                <div class="pc-modal-field">
+                    <label for="perfilNombre">Nombre</label>
+                    <input type="text" id="perfilNombre" name="nombre"
+                           th:value="${usuarioActual != null ? usuarioActual.nombre : ''}" required>
+                </div>
+                <div class="pc-modal-field">
+                    <label for="perfilUsername">Usuario</label>
+                    <input type="text" id="perfilUsername" name="username"
+                           th:value="${usuarioActual != null ? usuarioActual.username : ''}" required>
+                    <span class="pc-modal-hint">Si cambias tu usuario, tendrás que iniciar sesión de nuevo.</span>
+                </div>
+                <div class="pc-modal-footer">
+                   <button type="button" class="pc-btn-outline" id="btnCancelarPerfil">Cancelar</button>
+                   <button type="submit" class="pc-btn-primary"><i class="ti ti-device-floppy"></i> Guardar cambios</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ============ MODAL: Cambiar contraseña ============ -->
+    <div class="pc-modal-overlay" id="modalPassword">
+        <div class="pc-modal">
+            <div class="pc-modal-head">
+                <h2><i class="ti ti-lock"></i> Cambiar contraseña</h2>
+                <button type="button" class="pc-modal-close" id="btnCerrarPassword"><i class="ti ti-x"></i></button>
+            </div>
+            <form th:action="@{/perfil/cambiar-password}" method="post" class="pc-modal-body">
+                <div class="pc-modal-field">
+                    <label for="passwordActual">Contraseña actual</label>
+                    <input type="password" id="passwordActual" name="passwordActual" required>
+                </div>
+                <div class="pc-modal-field">
+                    <label for="passwordNueva">Nueva contraseña</label>
+                    <input type="password" id="passwordNueva" name="passwordNueva" required minlength="6">
+                </div>
+                <div class="pc-modal-field">
+                    <label for="passwordConfirmar">Confirmar nueva contraseña</label>
+                    <input type="password" id="passwordConfirmar" name="passwordConfirmar" required minlength="6">
+                </div>
+                <div class="pc-modal-footer">
+                    <button type="button" class="pc-btn-outline" id="btnCancelarPassword">Cancelar</button>
+                    <button type="submit" class="pc-btn-primary"><i class="ti ti-device-floppy"></i> Cambiar contraseña</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

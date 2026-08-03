@@ -120,31 +120,6 @@ actualizarTotalBeneficiarios();
 
 });
 
-const userToggle = document.getElementById("userToggle");
-const userDropdown = document.getElementById("userDropdown");
-
-if(userToggle){
-
-    userToggle.addEventListener("click",(e)=>{
-
-        e.stopPropagation();
-
-        userDropdown.classList.toggle("show");
-
-        userToggle.classList.toggle("active");
-
-    });
-
-    document.addEventListener("click",()=>{
-
-        userDropdown.classList.remove("show");
-
-        userToggle.classList.remove("active");
-
-    });
-
-}
-
 const inputArchivo = document.getElementById("archivoLista");
 const nombreArchivo = document.getElementById("nombreArchivo");
 

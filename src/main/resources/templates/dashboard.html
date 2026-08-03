@@ -26,68 +26,7 @@
             </div>
             <div class="db-header-right">
 
-    <div class="db-user-menu">
-
-        <button class="db-user-toggle" id="userToggle">
-
-            <div class="db-user-avatar">
-
-                <i class="ti ti-user"></i>
-
-            </div>
-
-            <div class="db-user-info">
-
-                <span class="db-user-name"
-                      th:text="${#authentication.name}">
-                    Usuario
-                </span>
-
-                <span class="db-user-role">
-                    Usuario
-                </span>
-
-            </div>
-
-            <i class="ti ti-chevron-down"></i>
-
-        </button>
-
-        <div class="db-user-dropdown" id="userDropdown">
-
-            <a href="#">
-
-                <i class="ti ti-user"></i>
-
-                Mi perfil
-
-            </a>
-
-            <a href="#">
-
-                <i class="ti ti-lock"></i>
-
-                Cambiar contraseña
-
-            </a>
-
-            <hr>
-
-            <form th:action="@{/logout}" method="post">
-
-                <button type="submit" class="logout-btn">
-
-                    <i class="ti ti-logout"></i>
-
-                    Cerrar sesión
-
-                </button>
-
-            </form>
-
-        </div>
-
-    </div>
+    <div th:replace="~{fragments/user-menu :: userMenu}"></div>
 
 </div>
         </div>
@@ -300,6 +239,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script th:src="@{/js/sidebar.js}"></script>
+<script th:src="@{/js/user-menu.js}"></script>
 <script th:src="@{/js/dashboard.js}"></script>
 </body>
 </html>
