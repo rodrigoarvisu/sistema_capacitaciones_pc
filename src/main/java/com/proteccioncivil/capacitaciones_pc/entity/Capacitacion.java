@@ -40,14 +40,6 @@ public class Capacitacion {
     @Column(length = 1000)
     private String observaciones;
 
-    @Column(nullable = false, updatable = false)
-    private LocalDateTime fechaRegistro;
-
-    @PrePersist
-    public void prePersist() {
-        fechaRegistro = LocalDateTime.now();
-    }
-
     @ManyToOne
     @JoinColumn(name = "tipo_inmueble_id")
     private TipoInmueble tipoInmueble;
@@ -76,4 +68,38 @@ public class Capacitacion {
     @Column(name = "archivo_lista", length = 255)
     private String archivoLista;
 
+    @Column(name = "registrado_por", length = 100, updatable = false)
+    private String registradoPor;
+
+    @Column(name = "modificado_por", length = 100)
+    private String modificadoPor;
+
+    @Column(name = "fecha_registro", updatable = false)
+    private LocalDateTime fechaRegistro;
+
+    @Column(name = "fecha_modificacion")
+    private LocalDateTime fechaModificacion;
+
+    @PrePersist
+    public void PrePersist() {
+        registradoPor = obtenerUsuarioActual();
+        fechaRegistro = LocalDateTime.now();
+        modificadoPor = registradoPor;
+        fechaModificacion = fechaRegistro;
+    }
+
+    @PreUpdate
+    public void PreUpdate() {
+        modificadoPor = obtenerUsuarioActual();
+        fechaModificacion = LocalDateTime.now();
+    }
+
+    @Transient
+    private String obtenerUsuarioActual() {
+        var auth = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getPrincipal())) {
+            return auth.getName();
+        }
+        return "sistema";
+    }
 }

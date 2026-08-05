@@ -10,7 +10,6 @@
     --pc-texto-suave: #6B7280;
     --pc-borde: #9f9fa0;
     --pc-input: #ececec;
-
     --pc-escuela: #FACC15;
     --pc-gobierno: #2563EB;
     --pc-empresa: #16A34A;
@@ -54,9 +53,7 @@ body{
     );
 
     color:white;
-
     flex-shrink:0;
-
     transition:width .3s ease;
 }
 
@@ -80,16 +77,12 @@ body{
     display:flex;
     align-items:center;
     gap:10px;
-
     padding:12px 15px;
     margin:8px 10px;
-
     color:white;
     text-decoration:none;
-
     border-radius:28px;
     border-left: 3px solid transparent;
-
     transition:all .25s ease;
 }
 
@@ -186,7 +179,7 @@ body.sidebar-hidden .contenido{
 }
 
 .db-user-toggle{
-    width: 320px;
+    width: 280px;
     display: flex;
     align-items: center;
     gap: 12px;

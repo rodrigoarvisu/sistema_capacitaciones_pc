@@ -24,7 +24,11 @@ document.addEventListener('DOMContentLoaded', function () {
           hombres: c.hombres,
           mujeres: c.mujeres,
           ninos: c.ninos,
-          archivoLista: c.archivoLista
+          archivoLista: c.archivoLista,
+          registradoPor: c.registradoPor,
+          modificadoPor: c.modificadoPor,
+          fechaModificacion: c.fechaModificacion,
+          fechaRegistro: c.fechaRegistro
           };
       });
       
@@ -395,6 +399,10 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('modalContacto').textContent = ev.contacto || '—';
         document.getElementById('modalTelefono').textContent = ev.telefono || '—';
         document.getElementById('modalObservaciones').textContent = ev.observaciones || '—';
+        document.getElementById('modalRegistradoPor').textContent =
+        (ev.registradoPor || '—') + ' - ' + (ev.fechaRegistro ? new Date(ev.fechaRegistro).toLocaleString() : '');
+        document.getElementById('modalModificadoPor').textContent =
+        (ev.modificadoPor || '—') + ' - ' + (ev.fechaModificacion ? new Date(ev.fechaModificacion).toLocaleString() : '');
 
         var total = (ev.hombres || 0) + (ev.mujeres || 0) + (ev.ninos || 0);
         document.getElementById('modalBeneficiarios').textContent =
@@ -404,7 +412,7 @@ document.addEventListener('DOMContentLoaded', function () {
         var modalArchivo = document.getElementById('modalArchivo');
          if (ev.archivoLista) {
              modalArchivo.innerHTML = '<a href="/' + ev.archivoLista +
-             '" target="_blank" style="color:var(--pc-primario); text-decoration:underline;">Ver PDF</a>';
+             '" target="_blank" style="color:var(--pc-rojo); text-decoration:underline;">Ver PDF</a>';
         } else {
              modalArchivo.textContent = 'Sin archivo adjunto';
         }
