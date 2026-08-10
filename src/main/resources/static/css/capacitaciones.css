@@ -68,7 +68,7 @@
 /* Layout principal: formulario + aside */
 .fc-layout {
     display: grid;
-    grid-template-columns: 1fr 270px;
+    grid-template-columns: 1fr 290px;
     gap: 20px;
     align-items: start;
 }

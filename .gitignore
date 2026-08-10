@@ -29,5 +29,19 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 
+# Datos persistentes locales / producción
+data/
+mysql/
+*.pem
+*.key
+*.log
+
+# PDFs generados / respaldos locales
+respaldo-pdfs/
+
+# Backups locales de base de datos
+backup.sql
+
 ### VS Code ###
 .vscode/
+

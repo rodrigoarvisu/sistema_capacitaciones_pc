@@ -1,0 +1,25 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data/listas-asistencia:/app/data/listas-asistencia
+    environment:
+      - TZ=America/Mexico_City
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/bd_capacitaciones
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=docker_password_123
+      - APP_UPLOAD_DIR=/app/data/listas-asistencia
+    depends_on:
+      - db
+    restart: always
+
+  db:
+    image: mysql:8
+    environment:
+      - MYSQL_DATABASE=bd_capacitaciones
+      - MYSQL_ROOT_PASSWORD=docker_password_123
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    restart: always

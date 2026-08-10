@@ -187,9 +187,6 @@
         }
 
         .rpt-kpi-total { border-top-color: #2563eb; }
-        .rpt-kpi-realizadas { border-top-color: #16a34a; }
-        .rpt-kpi-programadas { border-top-color: #f2b705; }
-        .rpt-kpi-canceladas { border-top-color: #dc2626; }
         .rpt-kpi-horas { border-top-color: #6b217d; }
 
         .rpt-beneficiarios {
@@ -410,13 +407,13 @@
 
     <div class="rpt-header">
         <div class="rpt-logo-cell">
-            <img src="img/logo-pc.png" class="rpt-logo" alt="Logo"/>
+            <img th:src="'data:image/png;base64,' + ${logoBase64}" class="rpt-logo" alt="Logo"/>
         </div>
 
         <div class="rpt-header-info">
-            <h1>Reporte de Capacitaciones</h1>
+            <h1>Reporte de Actividades</h1>
             <p class="subtitulo">
-                Sistema de Gestión de Capacitaciones - Coordinación de
+                Sistema de Gestión de Capacitaciones y Actividades - Coordinación de
                 Capacitación, Vinculación y Difusión.
             </p>
 
@@ -473,30 +470,30 @@
             <div class="rpt-kpi rpt-kpi-total">
                 <span class="rpt-kpi-label">Total</span>
                 <span class="rpt-kpi-valor" th:text="${total}">10</span>
-                <span class="rpt-kpi-sub">capacitaciones</span>
+                <span class="rpt-kpi-sub">actividades</span>
             </div>
         </div>
         <div class="rpt-kpi-slot">
-            <div class="rpt-kpi rpt-kpi-realizadas">
-                <span class="rpt-kpi-label">Realizadas</span>
-                <span class="rpt-kpi-valor" th:text="${realizadas}">7</span>
-                <span class="rpt-kpi-sub" th:text="${total > 0 ? #numbers.formatDecimal(realizadas * 100.0 / total, 1, 1) + '%' : '0%'}">70.0%</span>
-            </div>
-        </div>
-        <div class="rpt-kpi-slot">
-            <div class="rpt-kpi rpt-kpi-programadas">
-                <span class="rpt-kpi-label">Programadas</span>
-                <span class="rpt-kpi-valor" th:text="${programadas}">1</span>
-                <span class="rpt-kpi-sub">pendientes</span>
-            </div>
-        </div>
-        <div class="rpt-kpi-slot">
-            <div class="rpt-kpi rpt-kpi-canceladas">
-                <span class="rpt-kpi-label">Canceladas</span>
-                <span class="rpt-kpi-valor" th:text="${canceladas}">2</span>
-                <span class="rpt-kpi-sub" th:text="${total > 0 ? #numbers.formatDecimal(canceladas * 100.0 / total, 1, 1) + '%' : '0%'}">20.0%</span>
-            </div>
-        </div>
+    <div class="rpt-kpi" th:style="'border-top-color:' + ${coloresEstatus['Realizada'] ?: '#16a34a'}">
+        <span class="rpt-kpi-label">Realizadas</span>
+        <span class="rpt-kpi-valor" th:text="${realizadas}">7</span>
+        <span class="rpt-kpi-sub" th:text="${total > 0 ? #numbers.formatDecimal(realizadas * 100.0 / total, 1, 1) + '%' : '0%'}">70.0%</span>
+    </div>
+</div>
+<div class="rpt-kpi-slot">
+    <div class="rpt-kpi" th:style="'border-top-color:' + ${coloresEstatus['Confirmada'] ?: '#f2b705'}">
+        <span class="rpt-kpi-label">Programadas</span>
+        <span class="rpt-kpi-valor" th:text="${programadas}">1</span>
+        <span class="rpt-kpi-sub">pendientes</span>
+    </div>
+</div>
+<div class="rpt-kpi-slot">
+    <div class="rpt-kpi" th:style="'border-top-color:' + ${coloresEstatus['Cancelada'] ?: '#dc2626'}">
+        <span class="rpt-kpi-label">Canceladas</span>
+        <span class="rpt-kpi-valor" th:text="${canceladas}">2</span>
+        <span class="rpt-kpi-sub" th:text="${total > 0 ? #numbers.formatDecimal(canceladas * 100.0 / total, 1, 1) + '%' : '0%'}">20.0%</span>
+    </div>
+</div>
         <div class="rpt-kpi-slot">
             <div class="rpt-kpi rpt-kpi-horas">
                 <span class="rpt-kpi-label">Horas impartidas</span>
@@ -568,7 +565,7 @@
         </div>
     </div>
 
-    <div class="rpt-section-title">Capacitaciones por tipo</div>
+    <div class="rpt-section-title">Capacitaciones y actividades por tipo</div>
     <div class="rpt-bars">
         <th:block th:if="${!#lists.isEmpty(capLabels)}">
             <th:block th:each="i : ${#numbers.sequence(0,#lists.size(capLabels)-1)}">
@@ -586,14 +583,14 @@
 
     <div class="page-break"></div>
 
-    <div class="rpt-section-title">Listado completo de capacitaciones</div>
+    <div class="rpt-section-title">Listado completo de actividades impartidas</div>
     <table class="rpt-table">
         <thead>
             <tr>
                 <th>Fecha</th>
                 <th>Horario</th>
                 <th>Solicitante</th>
-                <th>Tipo capacitación</th>
+                <th>Tema</th>
                 <th>Tipo inmueble</th>
                 <th>Instructor</th>
                 <th>Estatus</th>
@@ -622,7 +619,7 @@
     </table>
 
     <div class="rpt-footer">
-        <span>Sistema de Gestión de Capacitaciones - Protección Civil</span>
+        <span>Sistema de Gestión de Capacitaciones y Actividades - Protección Civil</span>
         <span th:text="'Generado el ' + ${#temporals.format(#temporals.createNow(), 'dd/MM/yyyy HH:mm')}">Generado el 10/07/2026 15:02</span>
         <span>1 / 1</span>
     </div>

@@ -19,9 +19,9 @@
 
         <!-- Breadcrumb -->
         <nav class="fc-breadcrumb">
-            <a th:href="@{/capacitaciones}">Capacitaciones</a>
+            <a th:href="@{/capacitaciones}">Actividades</a>
             <i class="ti ti-chevron-right"></i>
-            <span>Nueva capacitación</span>
+            <span>Nueva actividad</span>
         </nav>
 
         
@@ -33,8 +33,8 @@
                     <i class="ti ti-clipboard-list"></i>
                 </div>
                 <div>
-                    <h1>Nueva capacitación</h1>
-                    <p>Registrar, editar y administrar las capacitaciones.</p>
+                    <h1>Nueva actividad / capacitación</h1>
+                    <p>Registrar, editar y administrar las capacitaciones y actividades.</p>
                 </div>
             </div>
 
@@ -140,13 +140,13 @@
                         <div class="fc-section-head">
                             <i class="ti ti-certificate" aria-hidden="true"></i>
                             <div>
-                                <h2>Información de la capacitación</h2>
+                                <h2>Información de la actividad</h2>
                                 <span>Tipo, fecha, instructores y horario programado</span>
                             </div>
                         </div>
                         <div class="fc-grid">
                             <div class="fc-field">
-                                <label for="tipoCapacitacion">Tipo de capacitación <span class="fc-req">*</span></label>
+                                <label for="tipoCapacitacion">Tipo de capacitación / actividad <span class="fc-req">*</span></label>
                                 <div class="fc-input-wrap">
                                     <i class="ti ti-book" aria-hidden="true"></i>
                                     <select id="tipoCapacitacion" th:field="*{tipoCapacitacion}" required>
@@ -278,7 +278,7 @@
                             <i class="ti ti-flag" aria-hidden="true"></i>
                             <div>
                                 <h2>Estatus</h2>
-                                <span>Estado actual de la capacitación</span>
+                                <span>Estado actual de la actividad</span>
                             </div>
                         </div>
                         <div class="fc-grid">
@@ -420,7 +420,7 @@
 
                         <button type="submit" class="btn-primary-pc fc-btn-submit">
                           <i class="ti ti-device-floppy"></i>
-                          <span th:text="${capacitacion.id == null ? 'Guardar capacitación' : 'Guardar cambios'}"></span>
+                          <span th:text="${capacitacion.id == null ? 'Guardar' : 'Guardar cambios'}"></span>
                         </button>
                     </div>
 
@@ -466,7 +466,7 @@
                         <div class="fc-summary-row">
                             <i class="ti ti-certificate" aria-hidden="true"></i>
                             <div>
-                                <span class="fc-summary-key">Tipo de capacitación</span>
+                                <span class="fc-summary-key">Tipo de capacitación / actividad</span>
                                 <span class="fc-summary-val" id="resumen-tipo">—</span>
                             </div>
                         </div>

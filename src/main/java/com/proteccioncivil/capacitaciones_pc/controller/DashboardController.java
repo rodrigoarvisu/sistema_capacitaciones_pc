@@ -103,12 +103,11 @@ public class DashboardController {
         // --- KPIs generales ---
         long total       = filtradas.size();
         long realizadas  = filtradas.stream()
-                .filter(c -> c.getEstatus().getNombre().equalsIgnoreCase("Realizada")).count();
+                .filter(c -> c.getEstatus().getNombre().trim().equalsIgnoreCase("Realizada")).count();
         long programadas = filtradas.stream()
-                .filter(c -> c.getEstatus().getNombre().equalsIgnoreCase("Confirmada") ||
-                        c.getEstatus().getNombre().equalsIgnoreCase("Pendiente")).count();
+                .filter(c -> c.getEstatus().getNombre().trim().equalsIgnoreCase("Confirmada")).count();
         long canceladas  = filtradas.stream()
-                .filter(c -> c.getEstatus().getNombre().equalsIgnoreCase("Cancelada")).count();
+                .filter(c -> c.getEstatus().getNombre().trim().equalsIgnoreCase("Cancelada")).count();
 
         // Horas impartidas (diferencia horaFin - horaInicio en minutos → horas)
         long minutos = filtradas.stream()
@@ -180,12 +179,8 @@ public class DashboardController {
                 .map(porEstatus::get).collect(Collectors.toList());
 
         // Colores fijos por estatus
-        Map<String, String> coloresEstatus = Map.of(
-                "Realizada",  "#16A34A",
-                "Confirmada", "#2563EB",
-                "Pendiente",  "#EAB308",
-                "Cancelada",  "#DC2626"
-        );
+        Map<String, String> coloresEstatus = estatusRepository.findAll().stream()
+                .collect(Collectors.toMap(e -> e.getNombre(), e -> e.getColor()));
         List<String> estatusColores = estatusLabels.stream()
                 .map(l -> coloresEstatus.getOrDefault(l, "#9CA3AF"))
                 .collect(Collectors.toList());

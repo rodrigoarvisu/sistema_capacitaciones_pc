@@ -13,5 +13,5 @@ public class Estatus {
 
     private String nombre;
 
-    private String descripcion;
+    private String color;
 }

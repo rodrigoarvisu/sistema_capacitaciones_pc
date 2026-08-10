@@ -106,9 +106,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         } else if (catalogo === 'estatus') {
 
-            document.getElementById('estatusId').value = datos ? datos.id : '';
-            document.getElementById('estatusNombre').value = datos ? datos.nombre : '';
-            document.getElementById('estatusDesc').value = datos ? datos.descripcion : '';
+             document.getElementById('estatusId').value = datos ? datos.id : '';
+             document.getElementById('estatusNombre').value = datos ? datos.nombre : '';
+
+             var colorEstatus = datos ? datos.color : '#94A3B8';
+
+             document.getElementById('estatusColor').value = colorEstatus;
+             document.getElementById('estatusColorPicker').value = colorEstatus;
+             document.getElementById('estatusPreview').style.background = colorEstatus;
 
         }
 
@@ -222,6 +227,45 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
     }
+
+        /* ===================== COLOR PICKER ESTATUS ===================== */
+
+var colorPickerEstatus = document.getElementById('estatusColorPicker');
+var colorTextoEstatus = document.getElementById('estatusColor');
+var colorPreviewEstatus = document.getElementById('estatusPreview');
+
+if (colorPickerEstatus) {
+
+    colorPickerEstatus.addEventListener('input', function () {
+
+        colorTextoEstatus.value = this.value;
+        colorPreviewEstatus.style.background = this.value;
+
+    });
+
+}
+
+if (colorTextoEstatus) {
+
+    colorTextoEstatus.addEventListener('input', function () {
+
+        var c = this.value.trim();
+
+        if (!c.startsWith('#')) {
+            c = '#' + c;
+            this.value = c;
+        }
+
+        if (esHexValido(c)) {
+
+            colorPickerEstatus.value = c;
+            colorPreviewEstatus.style.background = c;
+
+        }
+
+    });
+
+}
 
     /* ===================== NOTIFICACIONES ===================== */
 

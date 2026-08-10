@@ -142,19 +142,24 @@
                     <div class="cat-table-wrap">
                         <table class="cat-table">
                             <thead>
-                                <tr><th style="width:60px">ID</th><th>Nombre</th><th>Descripción</th><th style="width:100px">Estatus</th><th style="width:110px">Acciones</th></tr>
+                                <tr><th style="width:60px">ID</th><th>Nombre</th><th>Color</th><th style="width:100px">Estatus</th><th style="width:110px">Acciones</th></tr>
                             </thead>
                             <tbody>
                                 <tr th:each="item : ${estatusLista}">
                                     <td th:text="${item.id}">1</td>
                                     <td th:text="${item.nombre}">Pendiente</td>
-                                    <td th:text="${item.descripcion}">Descripción</td>
+                                    <td>
+                                        <div class="cat-color-preview">
+                                            <span class="cat-color-dot" th:style="'background:' + ${item.color}"></span>
+                                            <span th:text="${item.color}">#94A3B8</span>
+                                        </div>
+                                    </td>
                                     <td><span class="cat-badge-activo">Activo</span></td>
                                     <td>
                                         <div class="cat-acciones">
                                             <button type="button" class="cat-btn-editar"
                                                 data-catalogo="estatus" data-titulo="Editar estatus"
-                                                th:data-id="${item.id}" th:data-nombre="${item.nombre}" th:data-descripcion="${item.descripcion}">
+                                                th:data-id="${item.id}" th:data-nombre="${item.nombre}" th:data-color="${item.color}">
                                                 <i class="ti ti-pencil"></i>
                                             </button>
                                             <form th:action="@{/catalogos/estatus/eliminar/{id}(id=${item.id})}" method="post" class="cat-form-eliminar">
@@ -235,6 +240,7 @@
 
         <!-- Form TipoInmueble -->
         <form id="formTipoInmueble" class="cat-modal-body" style="display:none" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <input type="hidden" name="id" id="tiInmuebleId">
             <div class="cat-field">
                 <label>Nombre <span class="cat-req">*</span></label>
@@ -259,6 +265,7 @@
 
         <!-- Form TipoCapacitacion -->
         <form id="formTipoCapacitacion" class="cat-modal-body" style="display:none" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <input type="hidden" name="id" id="tiCapacitacionId">
             <div class="cat-field">
                 <label>Nombre <span class="cat-req">*</span></label>
@@ -280,6 +287,7 @@
 
         <!-- Form Estatus -->
         <form id="formEstatus" class="cat-modal-body" style="display:none" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <input type="hidden" name="id" id="estatusId">
             <div class="cat-field">
                 <label>Nombre <span class="cat-req">*</span></label>
@@ -287,11 +295,14 @@
                     <input type="text" id="estatusNombre" name="nombre" placeholder="Ej. Confirmada, Pendiente..." required>
                 </div>
             </div>
-            <div class="cat-field">
-                <label>Descripción</label>
-                <div class="cat-input-wrap"><i class="ti ti-align-left"></i>
-                    <input type="text" id="estatusDesc" name="descripcion" placeholder="Breve descripción">
-                </div>
+             <div class="cat-field">
+                 <label>Color <span class="cat-req">*</span></label>
+                    <div class="cat-color-field">
+                       <input type="color" id="estatusColorPicker" value="#94A3B8">
+                       <input type="text" id="estatusColor" name="color" placeholder="#94A3B8" maxlength="7">
+                       <span class="cat-color-sample" id="estatusPreview"></span>
+                   </div>
+                  <span class="cat-field-hint">Se usa para identificar el estatus en el calendario y dashboard.</span>
             </div>
             <div class="cat-modal-footer">
                 <button type="button" class="cat-btn-outline" data-cerrar>Cancelar</button>
