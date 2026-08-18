@@ -9,7 +9,7 @@ services:
       - TZ=America/Mexico_City
       - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/bd_capacitaciones
       - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=docker_password_123
+      - SPRING_DATASOURCE_PASSWORD=${DB_ROOT_PASSWORD}
       - APP_UPLOAD_DIR=/app/data/listas-asistencia
     depends_on:
       - db
@@ -19,7 +19,7 @@ services:
     image: mysql:8
     environment:
       - MYSQL_DATABASE=bd_capacitaciones
-      - MYSQL_ROOT_PASSWORD=docker_password_123
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     volumes:
       - ./data/mysql:/var/lib/mysql
     restart: always

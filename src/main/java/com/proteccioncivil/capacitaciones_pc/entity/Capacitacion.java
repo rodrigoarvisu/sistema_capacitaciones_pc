@@ -56,6 +56,9 @@ public class Capacitacion {
     @JoinColumn(name = "instructor_id")
     private Instructor instructor;
 
+    @Column(name = "instructores_apoyo", length = 255)
+    private String instructoresApoyo;
+
     @Column(nullable = false)
     private Integer hombres = 0;
 

@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
           tipoCapacitacion: c.tipoCapacitacion.nombre,
           tipoInmueble: c.tipoInmueble.nombre,
           instructor: c.instructor ? c.instructor.nombre : "Sin asignar",
+          instructoresApoyo: c.instructoresApoyo || "-",
           tipoKey: obtenerTipoKey(c.tipoInmueble.nombre),
           fecha: c.fecha,
           horaInicio: c.horaInicio.substring(0, 5),
@@ -393,6 +394,7 @@ document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('modalTipoCapacitacion').textContent = ev.tipoCapacitacion;
         document.getElementById('modalTipoInmueble').textContent     = ev.tipoInmueble;
         document.getElementById('modalInstructor').textContent     = ev.instructor;
+        document.getElementById('modalInstructoresApoyo').textContent = ev.instructoresApoyo;
         document.getElementById('modalEstatus').textContent          = ev.estatus;
         document.getElementById('modalPc').textContent = ev.pc || '—';
         document.getElementById('modalOp').textContent = ev.op || '—';

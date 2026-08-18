@@ -59,6 +59,9 @@ public class CapacitacionController {
             @RequestParam(value = "archivo", required = false)
             MultipartFile archivo) {
         try {
+            if (capacitacion.getArchivoLista() != null && capacitacion.getArchivoLista().isBlank()){
+                capacitacion.setArchivoLista((null));
+            }
             Capacitacion guardada = capacitacionService.guardar(capacitacion);
 
             if (archivo != null && !archivo.isEmpty()) {

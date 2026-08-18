@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             tablaProximas.innerHTML = "";
 
-            data.proximasCapacitaciones.forEach(cap => {
+            data.proximasCapacitaciones.slice(0, 3).forEach(cap => {
                 tablaProximas.innerHTML += `
                 <tr>
                     <td>${cap.fecha}</td>
@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             tablaHistorial.innerHTML = "";
 
-            data.historial.forEach(cap => {
+            data.historial.slice(0, 3).forEach(cap => {
                 tablaHistorial.innerHTML += `
                 <tr>
                     <td>${cap.fecha}</td>

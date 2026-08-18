@@ -201,6 +201,16 @@
                                 </select>
                                 </div>
                             </div>
+                            <div class="fc-field">
+                                <label for="instructoresApoyo">Instructores de apoyo</label>
+                                <div class="fc-input-wrap">
+                                    <i class="ti ti-users" aria-hidden="true"></i>
+                                    <input type="text"
+                                    id="instructoresApoyo"
+                                    th:field="*{instructoresApoyo}"
+                                    placeholder="Ej. Juan Pérez, Maria Lopez">
+                                </div>
+                            </div>
                             <div class="fc-field fc-field-full">
     <label for="observaciones">Descripción</label>
 
@@ -370,7 +380,7 @@
             <div class="fc-upload-box">
 
     <!-- Estado: ya existe un archivo -->
-    <div id="archivoExistente" th:if="${capacitacion.archivoLista != null}">
+    <div id="archivoExistente" th:if="${capacitacion.archivoLista != null and !capacitacion.archivoLista.isEmpty()}">
         <i class="ti ti-file-type-pdf fc-upload-icon"></i>
         <p>Ya existe un archivo adjunto:</p>
        <a th:href="@{|/${capacitacion.archivoLista}|}"
@@ -386,7 +396,7 @@
 
     <!-- Estado: sin archivo / seleccionar nuevo -->
     <div id="archivoNuevo"
-         th:style="${capacitacion.archivoLista != null ? 'display:none' : ''}"
+        th:style="${capacitacion.archivoLista != null and !capacitacion.archivoLista.isEmpty() ? 'display:none' : ''}"
          onclick="document.getElementById('archivoLista').click()">
         <i class="ti ti-file-type-pdf fc-upload-icon"></i>
         <p>Solo se permiten archivos PDF de hasta 10 MB.</p>

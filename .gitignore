@@ -45,3 +45,10 @@ backup.sql
 ### VS Code ###
 .vscode/
 
+# Respaldos automáticos locales
+backups/
+
+# Script de respaldo con credenciales
+respaldo-diario.ps1
+
+.env
