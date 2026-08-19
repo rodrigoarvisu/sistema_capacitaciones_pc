@@ -8,38 +8,38 @@
 
         <a href="/" class="menu-item"
            th:classappend="${paginaActiva == 'dashboard'} ? ' active'">
-            
-            📈 Dashboard
+            <i class="ti ti-chart-bar"></i>
+             Dashboard
         </a>
 
         <a href="/capacitaciones" class="menu-item"
            th:classappend="${paginaActiva == 'capacitaciones'} ? ' active'">
-        
-            📝 Nueva Actividad
+             <i class="ti ti-file-plus"></i>
+             Nueva Actividad
         </a>
 
         <a href="/calendario" class="menu-item"
         th:classappend="${paginaActiva == 'calendario'} ? ' active'">
-            
-            📆 Calendario
+             <i class="ti ti-calendar"></i>
+             Calendario
         </a>
 
         <a href="/consulta-historica" class="menu-item"
          th:classappend="${paginaActiva == 'consultaHistorica'} ? ' active'">
-            
-            📜 Consulta Histórica
+             <i class="ti ti-file-search"></i>
+             Consulta Histórica
         </a>
 
         <a href="/instructores" class="menu-item"
             th:classappend="${paginaActiva == 'instructores'} ? ' active'">
-            
-            🧑‍🚒 Instructores
+             <i class="ti ti-user"></i>
+             Instructores
         </a>
 
         <a href="/catalogos" class="menu-item"
             th:classappend="${paginaActiva == 'catalogos'} ? ' active'">
-            
-            📕 Catálogos
+            <i class="ti ti-book"></i>
+             Catálogos
         </a>
 
     </nav>
