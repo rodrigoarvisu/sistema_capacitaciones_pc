@@ -154,7 +154,7 @@ El Dashboard concentra el análisis estadístico por medio de **filtros** (tipo 
 ### Generación de reportes 
 El dashboard permite generar un **reporte PDF** con base al periodo y filtros seleccionados 
 
-<img src="screenshots/reporte.jpeg" alt="Reporte" width="800">
+<img src="screenshots/reporte.png" alt="Reporte" width="800">
 
 ## Tecnologías 
 ### Backend
